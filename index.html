@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark" data-page-node-id="j3yHfBZRWQE2iPSvJxHapO">
+<head data-page-node-id="HpgtkvhB33TC0Uy7bBWUDV">
+<meta charset="UTF-8" data-page-node-id="f0y1Ly88bJelHXmTYeOH2e">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="z4Z8ngyYF2WtHGm4j2eBUo">
+<title>包材树脂智能选材平台 · Packaging Resin Selector</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --line:#2d333b; --line2:#3d444d;
+  --tx:#e6edf3; --tx2:#9198a1; --tx3:#6e7681;
+  --ac:#58a6ff; --ok:#3fb950; --warn:#d29922; --bad:#f85149;
+  --r:10px;
+}
+[data-theme="light"]{
+  --bg:#ffffff; --panel:#f6f8fa; --panel2:#ffffff; --line:#d8dee4; --line2:#b7c0cb;
+  --tx:#1f2328; --tx2:#59636e; --tx3:#818b98;
+  --ac:#0969da; --ok:#1a7f37; --warn:#9a6700; --bad:#cf222e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 60px}
+header{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 0 10px}
+.logo{font-size:17px;font-weight:600;letter-spacing:.5px}
+.logo span{color:var(--tx3);font-size:12px;font-weight:400;margin-left:8px}
+.spacer{flex:1}
+input[type=text],input[type=number],select{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:13px;font-family:inherit;outline:none}
+input:focus,select:focus{border-color:var(--ac)}
+.btn{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:7px 13px;font-size:13px;cursor:pointer;font-family:inherit;transition:.15s}
+.btn:hover{border-color:var(--line2);background:var(--panel)}
+.btn.on{background:var(--ac);border-color:var(--ac);color:#fff}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:0}
+nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--tx2);padding:9px 15px;font-size:14px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+nav button:hover{color:var(--tx)}
+nav button.on{color:var(--ac);border-bottom-color:var(--ac);font-weight:500}
+.pane{display:none;padding-top:22px}
+.pane.on{display:block}
+.hint{color:var(--tx2);font-size:13px;margin-bottom:16px}
+.pane-err{margin:0 0 14px;padding:10px 14px;border-radius:8px;border:1px solid #7f1d1d;background:#2a1215;color:#fca5a5;font-size:13px;line-height:1.6}
+html[data-theme=light] .pane-err{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;cursor:pointer;transition:.16s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--line2);transform:translateY(-2px)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--fc)}
+.ct{display:flex;align-items:baseline;gap:8px}
+.ct b{font-size:16px;font-weight:600}
+.ct i{font-style:normal;font-size:11px;color:var(--tx3)}
+.cfull{font-size:12px;color:var(--tx2);margin:3px 0 10px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line2);color:var(--tx2);margin:0 5px 5px 0}
+.tag.f{background:var(--fc);color:#0d1117;border-color:transparent;font-weight:600}
+.crow{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);padding:3px 0;border-top:1px dashed var(--line);margin-top:5px}
+.crow b{color:var(--tx);font-weight:500}
+.pbar{height:5px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:8px;border:1px solid var(--line)}
+.pbar i{display:block;height:100%;background:var(--fc)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--tx2);font-weight:500;font-size:12px;background:var(--panel);position:sticky;top:0}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.best{color:var(--ok);font-weight:600}
+.best::after{content:" ★";font-size:10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:34px 20px;overflow:auto}
+.modal.on{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--line2);border-radius:14px;max-width:920px;width:100%;padding:24px 26px 30px}
+.shead{display:flex;align-items:flex-start;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+.shead h2{font-size:20px;font-weight:600}
+.shead p{color:var(--tx2);font-size:13px;margin-top:3px}
+.x{margin-left:auto;background:none;border:1px solid var(--line);border-radius:8px;color:var(--tx2);width:30px;height:30px;cursor:pointer;font-size:16px;line-height:1}
+.x:hover{color:var(--tx);border-color:var(--line2)}
+h3{font-size:14px;font-weight:600;margin:20px 0 9px;color:var(--tx);display:flex;align-items:center;gap:8px}
+h3::before{content:"";width:3px;height:14px;background:var(--ac);border-radius:2px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.kv div{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.kv span{display:block;font-size:11px;color:var(--tx3)}
+.kv b{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.chk{display:flex;flex-wrap:wrap;gap:5px}
+.chkb{font-size:11px;padding:3px 9px;border-radius:6px;color:#fff;font-weight:500}
+ul.risk{list-style:none;font-size:13px;color:var(--tx2)}
+ul.risk li{padding:5px 0 5px 18px;position:relative;border-bottom:1px dashed var(--line)}
+ul.risk li:last-child{border:none}
+ul.risk li::before{content:"▪";position:absolute;left:4px;color:var(--ac)}
+ul.risk li.warn::before{content:"▲";color:var(--warn)}
+ul.risk li.bad::before{content:"✕";color:var(--bad)}
+.matrix{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.mtx{border-collapse:separate;border-spacing:3px;font-size:12px;min-width:1000px}
+.mtx th{padding:6px 4px;font-size:11px;text-align:center;background:none;position:static;color:var(--tx2);font-weight:500}
+.mtx th.mn{text-align:left;padding-left:8px;min-width:150px;color:var(--tx)}
+.mtx td{padding:0;border:none}
+.mtx td.mn{font-size:12px;padding:6px 8px;color:var(--tx);white-space:nowrap}
+.cell{border-radius:6px;text-align:center;padding:7px 2px;font-weight:500;cursor:help;color:#fff;font-size:11px}
+.s0{background:#5b1414;box-shadow:inset 0 0 0 1px #f85149}
+.s1{background:#8f2323}
+.s2{background:#8a5a10}
+.s3{background:#12573a}
+.s4{background:#12864a}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--tx2);margin-bottom:12px;align-items:center}
+.lg i{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.sl label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.sl label b{color:var(--ac);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.rank{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.rk{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px 16px}
+.rk.top{border-color:var(--ok);box-shadow:inset 3px 0 0 var(--ok)}
+.rn{font-size:20px;font-weight:600;color:var(--tx3);width:30px;text-align:center;flex:none}
+.rk.top .rn{color:var(--ok)}
+.rb{flex:1;min-width:0}
+.rb h4{font-size:15px;font-weight:600;margin-bottom:2px}
+.rb p{font-size:12px;color:var(--tx2)}
+.rsc{width:66px;flex:none;text-align:right}
+.rsc b{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.rsc span{display:block;font-size:10px;color:var(--tx3)}
+.mini{height:5px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:6px;border:1px solid var(--line)}
+.mini i{display:block;height:100%;background:var(--ok)}
+.blank{text-align:center;color:var(--tx3);padding:40px;font-size:13px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding-top:16px;color:var(--tx3);font-size:12px;line-height:1.7}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.two{grid-template-columns:1fr}.sheet{padding:18px}}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 11px;font-size:12px;margin:0 5px 5px 0}
+/* ===== 雷达画像 ===== */
+.rctl{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:14px}
+.rctl label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2)}
+.rctl select{padding:6px 9px;font-size:12px}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(276px,1fr));gap:12px}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px 0;overflow:hidden;transition:.16s}
+.rcard:hover{border-color:var(--line2);transform:translateY(-2px)}
+.rct{display:flex;align-items:baseline;gap:8px;min-width:0}
+.rct b{font-size:15px;font-weight:600;color:var(--fc);white-space:nowrap}
+.rct i{font-style:normal;font-size:11px;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rct .rt{margin-left:auto;flex:none;font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line2);color:var(--tx2);font-weight:400}
+.rfull{font-size:11.5px;color:var(--tx2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcard svg{display:block;width:100%;height:auto;margin:1px 0 6px}
+.rcb{margin:0 -12px;padding:7px 12px;background:var(--panel2);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;color:var(--tx2)}
+.rcb b{color:var(--ac);font-weight:600;font-variant-numeric:tabular-nums}
+.rcb .rp{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rleg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:11.5px;color:var(--tx2);margin-top:16px;padding-top:12px;border-top:1px dashed var(--line)}
+.rleg i{font-style:normal;color:var(--ac)}
+</style>
+</head>
+<body data-page-node-id="Nvt7qpX5YsYmlnaCl58F90">
+<header data-page-node-id="IfT5WrBFisYDizo1S4lHaU">
+<div class="wrap" data-page-node-id="6HAkU4OSGHF57GzAH5Qj8V">
+  <div class="hd" data-page-node-id="8mbXd63AgI8LbWRc6RVrEG">
+    <div class="logo" data-page-node-id="WsFzGlBle8zbj1RfkCQuUh">包材树脂智能选材平台<span data-page-node-id="hs1cItYp2pxVfwQ0cmsOxR">Packaging Resin Selector v1.3</span></div>
+    <div class="spacer" data-page-node-id="cHO3ydWGWvqD382236EpGS"></div>
+    <input type="text" id="q" placeholder="搜索材料 / 应用 / 牌号…" style="width:210px" data-page-node-id="HMZUBzm7C23o5Q9CCSB11n">
+    <button class="btn" id="theme" data-page-node-id="bqP2dzMGzk03sBC8fJ9GCR">浅色</button>
+  </div>
+  <nav data-page-node-id="bLbyH5ywNprIhYv5ImJ5E1">
+    <button class="on" data-p="lib" data-page-node-id="MBcJcKI8XKn2oEHagMp8Cf">材料库</button>
+    <button data-p="cmp" data-page-node-id="OShfEysIrXjtHHTIeVC84e">参数对比</button>
+    <button data-p="chem" data-page-node-id="ZOZG1BNXmaii7C6324sUg7">耐化学矩阵</button>
+    <button data-p="pick" data-page-node-id="WOXfmQuYaX6iJz6IQxfe5M">选材推荐</button>
+    <button data-p="cost" data-page-node-id="NFXme3Xo9sNMmsLqGMqtcS">成本测算</button>
+    <button data-p="test" data-page-node-id="HGdOKgvLZBSCEHbzHXnD5g">必检项</button>
+    <button data-p="radar">雷达画像</button>
+    <button data-p="audit">数据溯源</button>
+  </nav>
+</div>
+</header>
+
+<div class="wrap" data-page-node-id="DWmt4H9nMH9kn88rGuvEkG">
+  <section class="pane on" id="lib" data-page-node-id="IDONEfBDKqbHJwRFSD0bwR"><div class="grid" id="cards" data-page-node-id="VOaHLlesxYUUDoEURxftc9"></div></section>
+
+  <section class="pane" id="cmp" data-page-node-id="T1JdRDDsRRMBdKiZz2anH7">
+    <p class="hint" data-page-node-id="9zbGQSokL9E1ByWMjhdHC0">勾选需要对比的材料（最多 6 种），★ 标记为该指标下的最优值。密度、收缩率、价格越低越好。</p>
+    <div id="cmpPick" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px" data-page-node-id="r9ew32flIy1Yg3Ej4t99to"></div>
+    <div id="cmpOut" data-page-node-id="u3gAYUydHB0H8P9556CIaZ"></div>
+  </section>
+
+  <section class="pane" id="chem" data-page-node-id="xCUyrPXT8JoJrSB2zDaT61">
+    <p class="hint" data-page-node-id="KMrRXUh4yttEG7VlMaYI7z">按化妆品内容物常见介质评估，评级分 0 溶解 / 1 差 / 2 中 / 3 良 / 4 优 五档，基准为「室温、无残余应力、静态浸泡」。实际失效多为环境应力开裂（ESC），务必带应力复测。每条评级的来源编号、核对状态与冲突处理见「数据溯源」页。</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px" id="mgrp"></div>
+    <div class="lg" data-page-node-id="eyvIxqgC0gBVLh8Qj3B31S">
+      <span data-page-node-id="cgkW8vROfb9wkznuxvZmDk"><i class="s4" data-page-node-id="jc07iKY6mzTUBG5k00D1Cc"></i>优 · 可长期使用</span>
+      <span data-page-node-id="WzL3YviHwNna9OQ4mqD57e"><i class="s3" data-page-node-id="yuqeGpUxZ5DNWPm6RDivqg"></i>良 · 一般可用</span>
+      <span data-page-node-id="TKzyhTFFS6GZXrXVe7SpjW"><i class="s2" data-page-node-id="zlSBFGvy7VBIc9wQUlZWEb"></i>中 · 有条件可用</span>
+      <span data-page-node-id="5sPE5vMGuIbGFST6EyhE44"><i class="s1" data-page-node-id="oXWBnOSoicnIpDhtTyRkYU"></i>差 · 银纹/开裂风险</span>
+      <span data-page-node-id="2DViYVWQCbDobYuTecvl7V"><i class="s0" data-page-node-id="jO5odJwpSYxkY2f8DEwm2P"></i>溶解 · 不可用</span>
+    </div>
+    <div class="matrix" id="mtxOut" data-page-node-id="sTgfxUwQp05tXBYpf93tSa"></div>
+    <div id="riskBox" style="margin-top:18px"></div>
+  </section>
+
+  <section class="pane" id="pick" data-page-node-id="I1rUKGZX6nAOO0A6iAGuEY">
+    <p class="hint" data-page-node-id="NvWJ7tqRxeGXTJN5kubidq">先选内容物体系（化学相容性权重最高），再拖动权重滑块匹配其他诉求，系统实时给出排序与理由。</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px" id="scen" data-page-node-id="vALcleHIoBgsRm6rUm0Ri2"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px" data-page-node-id="IcUyrD2UkYiwrHMuulVzIx">
+      <label data-page-node-id="Qjc0HFzBsofXekC8KZEw0e">成型工艺 <select id="proc" data-page-node-id="KKZFjq5pj6rjDxX1MPwnfq">
+        <option value="any" data-page-node-id="r5pbjF5iVkfbropgPQbnjc">不限</option><option value="注塑" data-page-node-id="9F8ChVbGEuR2AUNpCvmqop">注塑</option><option value="挤吹" data-page-node-id="DfD6kp111B70TTEXvw7EBs">挤吹 EBM</option>
+        <option value="注拉吹" data-page-node-id="J4tJiuCHkdleOY2zCgfiea">注拉吹 ISBM</option><option value="吸塑" data-page-node-id="HCjEdYFLHFmz1DP4kwqxbD">吸塑</option>
+        <option value="电镀" data-page-node-id="IzmfC7RFn9IHtKBRUqWWZF">电镀 / 喷涂</option><option value="挤出" data-page-node-id="AHWNYfn6NYmWxhN2hGFl3Q">挤出片材 / 软管</option>
+      </select></label>
+      <span style="font-size:12px;color:var(--tx3)" data-page-node-id="avbJEuE1FgCS2NZ1xpE4OX">工艺不匹配的材料按 0.35 系数降权，不硬性排除</span>
+    </div>
+    <div class="sliders" id="slBox" data-page-node-id="novEqYDL2frnhkzgjT8Fzi"></div>
+    <div class="rank" id="rankOut" data-page-node-id="BKN0BrqRwPVhfuCuDIqEj4"></div>
+  </section>
+
+  <section class="pane" id="cost" data-page-node-id="JGuDYiHFzas24SkG2X86LH">
+    <p class="hint" data-page-node-id="0O4voJ9D6uvhIUYCkk6emG">输入单件净重与年用量，按各树脂参考价区间估算单件材料成本。价格取区间中值，仅供比价，非报价。</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px" data-page-node-id="FFUJjvxogN7xuLEVlVX2YH">
+      <label data-page-node-id="yMvTe5u9i6aXzgwiCQeJWY">单件净重 <input type="number" id="w" value="25" style="width:80px" data-page-node-id="e0e9KtCwHETswCMVfhs2zy"> g</label>
+      <label data-page-node-id="BLkTcv3jzMFEl5iRGFYnZ3">年用量 <input type="number" id="vol" value="50" style="width:90px" data-page-node-id="dhD8tBNEXHImg6S2lX4BPW"> 万件</label>
+      <label data-page-node-id="cdZbYX2ZFFryBzjoJ9k5NY">透明件 <select id="needT" data-page-node-id="RSLXHgR0CB6nBVGjmgExlz"><option value="0" data-page-node-id="25BGXCWUtE3h3a2gOEgjYK">不限</option><option value="1" data-page-node-id="0BE8ihPR7fbplAKP7huS5L">必须透明</option></select></label>
+    </div>
+    <div id="costOut" data-page-node-id="g3G8PO7tZO5SIRupOuFXG6"></div>
+  </section>
+
+  <section class="pane" id="test" data-page-node-id="D9y6G1QCQFIOihCehnbxSj">
+    <p class="hint" data-page-node-id="030F7Ddm54wdCZ8xcpWb0C">按材料归口的包材测评必检项与典型失效模式，可直接作为入厂/新品验证清单使用。</p>
+    <div id="testOut" data-page-node-id="4EjyRZBHpqBaQQBovFiW6J"></div>
+  </section>
+
+  <section class="pane" id="radar">
+    <p class="hint">把每种树脂的六个关键维度画成一张固定刻度的雷达图，形状可直接横向比较。<b>耐化学轴跟随下方所选内容物体系</b>——同一个树脂换个配方，形状就会变，这是真实结论，不是画错了。</p>
+    <div class="rctl">
+      <label>内容物体系 <select id="rScen"></select></label>
+      <label>数据源 <select id="rSrc"><option value="all">全部 12 种</option><option value="pick">参数对比篮</option></select></label>
+      <label>排序 <select id="rSort">
+        <option value="score">六维均分</option><option value="chem">耐化学（当前体系）</option>
+        <option value="impact">抗冲击</option><option value="heat">耐热 HDT</option>
+        <option value="cost">成本（低→高）</option>
+      </select></label>
+      <label>显示 <select id="rLimit"><option value="6">6 张</option><option value="12" selected>12 张</option></select></label>
+      <button class="btn" id="rToCmp">加入参数对比</button>
+      <span id="rCount" style="font-size:12px;color:var(--tx3);margin-left:auto"></span>
+    </div>
+    <div class="rgrid" id="rGrid"></div>
+    <div class="blank" id="rEmpty" style="display:none"></div>
+    <div class="rleg">
+      <span>轴端圆圈 = <i>本组内排名</i>（1 最优）</span>
+      <span>六轴均 <i>0–100 固定刻度</i>，不随筛选漂移</span>
+      <span>耐化学 = 当前体系相关介质的加权均值，叠加最弱链惩罚</span>
+      <span>成本轴 = 参考价中值反向归一（越靠外越便宜）</span>
+    </div>
+  </section>
+
+  <section class="pane" id="audit">
+    <p class="hint">本页是平台的审计底稿，不是宣传页。每一类数据都对应到具体来源编号、核对状态与变更记录——目的是让任何第三方拿着这份文件，能自己判断某个数字该不该信、能信到什么程度。评级口径的完整定义另见配套 WORD《包材树脂耐化学评级口径说明》。</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--tx3)">数据版本 v1.1　|　核对完成日 2026-11-03　|　核对人：包材开发测评组</div>
+      <button class="btn no-print" onclick="window.print()">打印 / 导出 PDF</button>
+    </div>
+    <div class="audbar" id="audStat"></div>
+
+    <h3>一、材料级溯源（三类数据分开定级）</h3>
+    <p class="hint" style="margin-bottom:10px">物性、耐化学、价格三类数据的证据强度并不相同，因此分别定级，不用一个总状态把弱项盖住。</p>
+    <div class="tbl-wrap" id="audTbl"></div>
+
+    <h3>二、来源清单（文件级，非公司首页）</h3>
+    <p class="hint" style="margin-bottom:10px">只收录能定位到具体文件、表格或行情条目的来源。指向企业首页的链接一律视为不可审计，已剔除。</p>
+    <div class="tbl-wrap" id="srcTbl"></div>
+
+    <h3>三、来源冲突登记</h3>
+    <p class="hint" style="margin-bottom:10px">不同来源给出矛盾结论时，不隐藏、不取平均，登记在案并写明采纳哪一方、为什么。</p>
+    <div class="tbl-wrap" id="cfTbl"></div>
+
+    <h3>四、本版变更记录</h3>
+    <p class="hint" style="margin-bottom:10px">每次改数都要留痕：改了什么、原来是什么、依据哪条来源。R1 为评级核对轮，R2 为价格复核轮。</p>
+    <div class="tbl-wrap" id="chgTbl"></div>
+
+    <h3>五、测试方法与适用边界</h3>
+    <div class="note-box" id="stdBox"></div>
+  </section>
+
+  <footer data-page-node-id="yMFgcXMMzdmAqYiW8YIWBn">
+    价格口径：2026 年 11 月华东现货行情（含税，元/吨），来源为卓创资讯与公开报价平台；行情日波动，仅用于横向比价，不作采购报价依据。<br data-page-node-id="f1oTv8UWkLBueBx4NWGESJ">
+    物性为通用级典型值，改性牌号（增韧、耐热、透明成核、抗 UV 等）会有明显偏移，选型时以供应商 COA 与实测为准。<br data-page-node-id="rDxIWybK9cG0bGl9dumdNj">
+    耐化学评级（0 溶解 → 4 优）为室温无应力浸泡的定性判定，依据公开手册、厂牌评级与同行评议文献；对已知 ESC 敏感体系做了保守下调，逐条登记在「数据溯源」页。真实失效多为环境应力开裂，新品导入必须完成实际配方带应力相容性验证。<br data-page-node-id="rDxIWybK9cG0bGl9dumdNj">
+    <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)">
+      <b style="color:var(--tx2)">数据来源与引用（v1.1 · 2026-11-03 核对）</b>
+      <ul style="margin:8px 0 0;padding-left:18px;columns:2;column-gap:28px" id="srcList"></ul>
+    </div>
+  </footer>
+</div>
+
+<div class="modal" id="modal" data-page-node-id="X4GihpiFmNQMnIK8WWhkVe"><div class="sheet" id="sheet" data-page-node-id="8IjH5B0B6DK9jbRYJOf3mB"></div></div>
+
+<script>
+const FAM={
+  sty:{n:'苯乙烯类',c:'#a78bfa'},
+  acr:{n:'丙烯酸类',c:'#f472b6'},
+  poly:{n:'聚烯烃类',c:'#4ade80'},
+  pes:{n:'聚酯类',c:'#fb923c'}
+};
+const MGRP=[
+ {k:'base',n:'基础介质 / 溶剂'},
+ {k:'active',n:'功效成分与防腐剂'},
+ {k:'uv',n:'防晒剂与粉体'}
+];
+const GCOLOR={base:'#58a6ff',active:'#d29922',uv:'#f472b6'};
+const MEDIA=[
+  {g:'base',k:'water',n:'水 / 中性水溶液',d:'纯水、化妆水、中性精华液。绝大多数树脂都稳，注意吸湿尺寸变化。'},
+  {g:'base',k:'acid',n:'稀酸 / 稀碱 / 盐',d:'低浓度酸碱与电解质。PET 遇强碱会皂化水解，PC 亦然，这是聚酯家族的软肋。'},
+  {g:'base',k:'surfactant',n:'表面活性剂 / 洗涤剂',d:'洗发水、沐浴露、洁面。HDPE 环境应力开裂（ESCR）的头号介质，必须查 D1693。'},
+  {g:'base',k:'alcohol',n:'乙醇 / 异丙醇',d:'香水、发胶、高醇防晒喷雾。PMMA 与 PETG 的头号杀手，PCTG/PCTA 明显更稳。'},
+  {g:'base',k:'oil',n:'植物油 / 矿物油 / 硅油',d:'护肤油、卸妆油、硅油体系。PS 的头号杀手，PP/PE 会缓慢溶胀渗入。'},
+  {g:'base',k:'ester',n:'酯类 · IPM · 防晒剂溶剂',d:'肉豆蔻酸异丙酯、C12-15 醇苯甲酸酯等油相载体。油溶防晒剂的真正侵蚀主体往往就是这个油相。'},
+  {g:'base',k:'fragrance',n:'香精精油 / 萜烯',d:'柠檬烯、芳樟醇等萜烯类，强 ESC 介质，微量即可诱发银纹。'},
+  {g:'base',k:'propellant',n:'烷烃抛射剂（丙 / 丁烷）',d:'气雾剂 LPG。非极性烷烃，聚烯烃易溶胀；二甲醚（DME）体系侵蚀性更强。'},
+  {g:'base',k:'ketone',n:'酮类（丙酮 / 丁酮）',d:'洗甲水与工业溶剂，几乎通杀上述树脂，PP 相对最耐受。'},
+  {g:'base',k:'aromatic',n:'芳香烃（甲苯 / 二甲苯）',d:'油墨与胶黏剂溶剂，对所有非结晶树脂均有强侵蚀。'},
+  {g:'base',k:'chlorinated',n:'氯代烃（二氯甲烷）',d:'强溶剂，也常用于溶剂焊接。除 PP/PE 溶胀外基本全溶。'},
+
+  {g:'active',k:'salicylic',n:'水杨酸（BHA）',d:'脂溶性酚酸，pKa 2.97，常配于醇 / 丙二醇体系。酸本身温和，真正的侵蚀来自其醇溶载体；酚羟基对苯乙烯类有轻微溶胀。低浓度（≤2%）风险可控，高浓度与醇复配需实测。'},
+  {g:'active',k:'phenoxy',n:'苯氧乙醇',d:'防腐主力，即乙二醇苯醚，属芳香族醚醇，是强极性溶剂而非惰性成分。对 ABS、PS、PMMA 侵蚀明显，是化妆品包材 ESC 的高频诱因，含 1% 即需带应力验证。'},
+  {g:'active',k:'hap',n:'对羟基苯乙酮（HAP）',d:'新型防腐助剂，酚酮结构，弱酸性。侵蚀性显著弱于苯氧乙醇，但在醇溶体系中仍会放大风险，需与载体一起评估。'},
+  {g:'active',k:'carbomer',n:'卡波姆（Carbomer）',d:'交联聚丙烯酸增稠剂，本身是水凝胶态高分子，对树脂几乎无侵蚀。真正风险在于中和后体系偏碱（TEA / NaOH），聚酯件需复核耐碱；另注意凝胶长期接触下的吸湿与密封件老化。'},
+
+  {g:'uv',k:'tio2',n:'二氧化钛（TiO₂）',d:'无机物理防晒剂，化学惰性，耐化学评级为优。但有两个非化学风险：① 未包覆锐钛型的强光催化活性会加速聚合物老化，属耐候问题；② 高硬度粉体对泵芯、内塞等配合面有磨蚀。'},
+  {g:'uv',k:'zno',n:'氧化锌（ZnO）',d:'无机物理防晒剂，同样化学惰性，但锌离子是酯交换反应的经典催化剂，高温长期接触可能催化聚酯降解，故聚酯家族下调一档，需长期热储验证。'},
+  {g:'uv',k:'avobenzone',n:'阿伏苯宗（BMDM）',d:'UVA 主力，固体 β-二酮，必须溶于酯 / 油相使用。侵蚀主体是其油相载体而非分子本身。光稳定性差，分解产物酸性上升，会二次加剧侵蚀。与金属离子络合变色。'},
+  {g:'uv',k:'omc',n:'OMC / EHMC（甲氧基肉桂酸乙基己酯）',d:'UVB 主力，本身就是液态酯类溶剂，不需要载体即具强侵蚀性。对 PS、PMMA 属溶剂级，对 ABS、PETG 直接诱发 ESC。这是防晒配方里对包材最危险的单体成分之一。'},
+  {g:'uv',k:'octocrylene',n:'奥克立林',d:'液态氰基丙烯酸酯类，同属溶剂型防晒剂。除作阿伏苯宗稳定剂外，对 ABS 与苯乙烯类的侵蚀甚至强于 OMC，外壳件开裂案例中高频出现。'},
+  {g:'uv',k:'oxybenzone',n:'二苯酮-3（羟苯甲酮）',d:'固体二苯甲酮类，但渗透性极强——会渗入 PE / PP 并缓慢迁出，对 PMMA 则是强溶胀剂。国内有限量要求，且因渗透性需关注迁移与内容物损失。'},
+  {g:'uv',k:'tdsa',n:'苯基二苯并咪唑四磺酸酯二钠',d:'水溶性广谱防晒剂，以磺酸钠盐形式存在于水相，对树脂基本不侵蚀，是防晒品类中对包材最友好的一类。注意高电解质体系对金属弹簧与密封件的腐蚀。'},
+  {g:'active',k:'sym377',n:'苯乙基间苯二酚（SymWhite 377）',d:'强效酪氨酸酶抑制剂，白色粉末，常配于丙二醇 / 乙醇（0.1–0.5%）。分子本体对塑料惰性，真正风险在其醇 / PG 载体；苯乙烯类与 PMMA 需结合载体评估。'},
+  {g:'active',k:'rsc577',n:'4-丁基间苯二酚（577）',d:'间苯二酚衍生物美白剂，脂溶性更强，多溶于油相 / 丙二醇。分子惰性，但高浓度醇溶体系对 PS / PMMA / 苯乙烯类有 ESC 风险。'},
+  {g:'active',k:'hr4',n:'4-己基间苯二酚（4-HR）',d:'间苯二酚类美白与防腐助剂，脂溶性，溶于油 / 醇。与 577 类似，载体决定包材风险，本体对塑料基本惰性。'},
+  {g:'active',k:'arbutin',n:'熊果苷（α/β-Arbutin）',d:'氢醌葡糖苷，水溶性美白剂，对塑料完全惰性。风险仅来自其水溶液（水 / 醇混溶）体系，本体评级为优。'},
+  {g:'active',k:'niacin',n:'烟酰胺（维生素 B3）',d:'水溶性，pH 5–7 稳定，对绝大多数树脂惰性。高浓度下体系偏醇时参考乙醇列。'},
+  {g:'active',k:'txa',n:'传明酸（氨甲环酸）',d:'水溶性美白与抗炎剂，惰性。注意与金属离子及酸性活性同体系时的稳定性，而非塑料相容性。'},
+  {g:'active',k:'glab',n:'光甘草定（Glabridin）',d:'甘草提取物，脂溶性美白剂，溶于油 / 丙二醇。分子惰性，载体为油相时参考油列，对聚酯与苯乙烯类偏稳。'},
+  {g:'active',k:'kojic',n:'曲酸（Kojic Acid）',d:'真菌来源螯合型美白剂，水溶性弱酸，对塑料惰性。其溶液偏酸，长期接触聚酯需复核耐水解（参考酸列）。'},
+  {g:'active',k:'vc',n:'L-抗坏血酸（维生素 C 原型）',d:'强还原剂，水溶液 pH 2.5–3.5，常配 10–20% 于丙二醇 / 乙醇。游离酸 + 醇载体对聚酯有水解风险，PMMA 受醇影响，需带应力复测。'},
+  {g:'active',k:'vcder',n:'维生素 C 衍生物（AA2G / MAP / SAP）',d:'抗坏血酸葡糖苷 / 磷酸酯镁 / 磷酸酯钠等，水溶性、更稳定，对塑料惰性显著优于原型 VC。'},
+  {g:'active',k:'glu',n:'谷胱甘肽（Glutathione）',d:'三肽抗氧化剂，水溶性，对塑料惰性。多以水 / 醇体系存在，本体风险低。'},
+  {g:'active',k:'ha',n:'透明质酸（玻尿酸 / HA）',d:'水溶性高分子保湿剂，对树脂完全惰性。注意其凝胶体系的中和剂与防腐搭配。'},
+  {g:'active',k:'glycerin',n:'甘油（Glycerin）',d:'最常用多元醇保湿剂，水溶性，对塑料惰性。吸湿性强，长期接触关注密封件与标签。'},
+  {g:'active',k:'cera',n:'神经酰胺（Ceramide）',d:'脂质类屏障修复剂，脂溶性，多配于乳木果油 / 角鲨烷等油相。分子惰性，参考油列评估载体。'},
+  {g:'active',k:'panthenol',n:'泛醇（维生素 B5 前体）',d:'水溶性保湿与舒缓剂，对塑料惰性。'},
+  {g:'active',k:'urea',n:'尿素（Urea）',d:'角质调节与保湿剂，水溶性、弱碱性；高浓度下对聚酯有轻微水解倾向，一般配方浓度风险低。'},
+  {g:'active',k:'bg',n:'1,3-丁二醇（BG）',d:'多元醇保湿兼溶剂，水溶性，对塑料基本惰性；作为醇类载体时参考乙醇列。'},
+  {g:'active',k:'pg',n:'丙二醇（Propylene Glycol）',d:'常用保湿溶剂，水溶性，对多数树脂惰性但属温和极性溶剂，苯乙烯类与 PMMA 高浓体系需留意。'},
+  {g:'active',k:'squalane',n:'角鲨烷（Squalane）',d:'类皮脂油性保湿剂，对塑料惰性，参考植物油 / 矿物油列；注意其氧化稳定性与密封。'},
+  {g:'active',k:'retinol',n:'视黄醇（A 醇 / Retinol）',d:'脂溶性维 A 醇，必须溶于油相 / 酯类使用，光热易氧化。侵蚀主体是其油 / 酯载体；对 PS / PMMA 属溶剂级，对聚酯与苯乙烯类诱发 ESC。'},
+  {g:'active',k:'retpalm',n:'视黄醇棕榈酸酯（A 酯）',d:'脂溶性维 A 酯，溶于油相，较 A 醇稳定。同样以油 / 酯载体为真实侵蚀主体，外壳件需重点验证。'},
+  {g:'active',k:'proxylane',n:'玻色因（Pro-Xylane）',d:'羟丙基四氢吡喃三醇，水溶性糖衍生物，对塑料完全惰性。'},
+  {g:'active',k:'peptide',n:'胜肽（多肽类）',d:'水溶性大分子（如乙酰基六肽-8、蓝铜胜肽），对塑料惰性；蓝铜胜肽含铜离子，长期接触金属弹簧 / 泵芯有腐蚀风险。'},
+  {g:'active',k:'coq10',n:'辅酶 Q10（泛醌）',d:'脂溶性抗氧化剂，溶于油相，分子惰性；载体为油 / 酯时参考对应列。'},
+  {g:'active',k:'ergo',n:'麦角硫因（Ergothioneine）',d:'天然氨基酸衍生物抗氧化剂，水溶性，对塑料惰性。'}
+];
+const LBL=['溶解','差','中','良','优'];
+
+/* ============================================================
+   数据溯源层 v1.1（2026-11-03）
+   设计原则：
+   1. 来源必须定位到「具体文件 / 表格 / 行情条目」，指向企业首页的一律不收；
+   2. 物性、耐化学、价格三类数据分别定级，不用一个总状态掩盖弱项；
+   3. 来源冲突不隐藏、不取平均，登记并说明采纳理由；
+   4. 每次改数留痕（原值 → 新值 → 依据），可回溯。
+   ============================================================ */
+const ST={
+  verified:{n:'已核对',c:'var(--ok)',i:'✅',d:'数值可在所引来源中直接查到，条件与口径一致'},
+  partial:{n:'部分核对',c:'var(--warn)',i:'◐',d:'方向与量级有来源支撑，具体数值为通用级典型值或区间推断'},
+  inferred:{n:'推定',c:'var(--tx3)',i:'○',d:'无直接来源，依行业经验推算，必须实测后才能用于放行'}
+};
+
+const SRC=[
+ {id:'S01',org:'卓创资讯 SCI99',title:'主要化工产品涨跌排行榜（20261014）',kind:'价格行情',date:'2026-10-14',
+  use:'ABS 0215A 11,900 / PET 水瓶级 8,925 / 苯乙烯 11,000+ / MMA 13,350 元/吨',
+  url:'https://www.sci99.com/news/55970556.html'},
+ {id:'S02',org:'卓创资讯 SCI99',title:'East China PP Prices Rise Before Remaining High, Slight Decline Expected in Nov 2026',kind:'价格行情',date:'2026-11',
+  use:'PP 拉丝 10,300–10,825；低熔共聚 10,400–10,750 元/吨（华东）',
+  url:'https://intl.sci99.com/n/4/1990352.html'},
+ {id:'S03',org:'卓创资讯 SCI99',title:'【季度展望·PS】三季度震荡攀升 四季度或高位回落',kind:'价格行情',date:'2026-Q4',
+  use:'华东普通透苯 10–12 月均价预测 11,400 / 10,800 / 10,200 元/吨',
+  url:'https://www.sci99.com/info/3_1000005_43464.html'},
+ {id:'S04',org:'卓创塑料',title:'塑料每日收盘汇总（2026-11-02）',kind:'价格行情',date:'2026-11-02',
+  use:'PS 透苯 11,900–12,200；ABS HI-121H 13,200–13,400；PET 8,900–9,050；PE 7042 10,750 元/吨',
+  url:'http://mp.weixin.qq.com/s?__biz=MzA5MzA4OTIzMA==&mid=2651425709&idx=2&sn=142194f39cc23b18be4756a549757913'},
+ {id:'S05',org:'K-Mac Plastics',title:'Polystyrene Chemical Resistance Chart',kind:'耐化学（24 h 无负载，23/50/75 °C）',date:'—',
+  use:'PS 对甲苯 / 二甲苯 / 丙酮 / 二氯甲烷 = C（差）；85% 乙醇 = B；矿物油 = A',
+  url:'http://www.k-mac-plastics.net/data/chemical/polystryrene-chemical-resistance.htm'},
+ {id:'S06',org:'Darwin Microfluidics',title:'PS (Polystyrene) – Chemical Resistance Chart',kind:'耐化学（逐介质）',date:'—',
+  use:'PS 对醇 / 酮 / 酯 / 芳烃 / 氯代烃的逐项归级，用于交叉核对',
+  url:'https://blog.darwin-microfluidics.com/ps-polystyrene-chemical-resistance-chart/'},
+ {id:'S07',org:'Bangs Laboratories（据 Polymer Handbook / Hansen 参数）',title:'TSD 0023 · Common Solvents and Non-solvents of Polystyrene',kind:'溶解度参数矩阵',date:'—',
+  use:'PS / PMMA 在烷烃、芳烃、酮、酯、醇中的溶解性判据（S / I）',
+  url:'https://www.bangslabs.com/sites/default/files/imce/docs/TSD%200023%20web.pdf'},
+ {id:'S08',org:'Nature · Heritage Science（同行评议）',title:'Effects of selected solvents on PMMA after prolonged exposure',kind:'耐化学（30 d 浸泡实验）',date:'2023',
+  use:'PMMA 经醇类 30 d 浸泡产生表面结晶与银纹；异丙醇致硬化、乙醇致增塑；水与石油醚无可测变化',
+  url:'https://www.nature.com/articles/s40494-023-00881-z'},
+ {id:'S09',org:'Evonik 评级（经 pom-material 整理）',title:'PMMA Chemical Resistance: What Acrylic Withstands and What Attacks It',kind:'耐化学（牌号评级）',date:'—',
+  use:'95% 乙醇 = 不耐；30% 乙醇 = 有限；100% 甲醇 = 不耐；70% IPA 常温 A、50 °C 降为 D',
+  url:'https://pom-material.com/blog/pmma-chemical-resistance'},
+ {id:'S10',org:'Letslab',title:'透明 PET 瓶化学兼容性说明',kind:'耐化学（包装实践）',date:'—',
+  use:'PET 不可用于丙酮、甲苯、氯仿等强有机溶剂；对稀酸、稀碱、水溶液可靠',
+  url:'https://www.letslab.co.uk/clear-bottle-pet.lab'},
+ {id:'S11',org:'喜润包装',title:'PET 瓶身抗化学性分析',kind:'耐化学（机理）',date:'—',
+  use:'丙酮数分钟内软化 PET 表面；苯渗入非晶区致变形；稀碱长期接触开裂、浓碱快速降解',
+  url:'https://www.hnxrbz.com/news/1127.html'},
+ {id:'S12',org:'Sunbro Packaging',title:'PET 瓶性能与优势',kind:'耐化学（冲突源）',date:'—',
+  use:'称 PET 对丙酮、苯、甲苯"稳定"——与 S10 / S11 矛盾，登记为冲突项 C1',
+  url:'http://www.3mbro.com/info.php?cid=7&id=37'},
+ {id:'S13',org:'普拉司网',title:'PCTG Tritan™ TX1501HF 报价',kind:'价格行情（含税现货）',date:'2025-12-05',
+  use:'PCTG 52,000 元/吨（东莞，25 kg/包）',
+  url:'https://www.plasway.com/shop/231101/price/purchase/954A059E6DBB40C2D9954200BC464E44'},
+ {id:'S14',org:'百度爱采购（多供应商）',title:'PCTG / PCTA / PMMA / PET 小批量成交价',kind:'价格行情（零售口径）',date:'2026-08~10',
+  use:'Tritan 26–38 元/kg；PMMA 24–35 元/kg；PCTA 10–28 元/kg；PET 6.7–8.0 元/kg',
+  url:'https://b2b.baidu.com/land/eb74c46ce6d7f2ce92607a92a0d21d3a?fid=403116032'},
+ {id:'S15',org:'搜了网',title:'PCTA 注塑级透明颗粒行情',kind:'价格行情（贸易商自提）',date:'2025-04',
+  use:'华东 PCTA 注塑级 28–35 元/kg；SK JN200 均价 32，伊士曼 MXF221 均价 34',
+  url:'https://m.51sole.com/shop/kayooo/companyproductdetail_247766239.htm'}
+];
+
+/* 材料级溯源：三类数据分别定级 */
+const AUD={
+ gpps:{phys:'partial',chem:'verified',price:'verified',note:'耐化有 K-Mac 逐项表直接支撑（S05）；物性为通用级典型值，未见厂 TDS 原件'},
+ as:  {phys:'partial',chem:'partial', price:'partial', note:'无 AN 含量对应的厂 TDS 专项耐化表；价格按透苯加 2,000–4,000 元加工溢价推算'},
+ ms:  {phys:'partial',chem:'partial', price:'inferred',note:'INEOS NAS 属进口专用牌号，国内公开报价少，价格为区间推算'},
+ pmma:{phys:'partial',chem:'verified',price:'partial', note:'耐化有同行评议文献 + Evonik 牌号评级双支撑（S08/S09）；价格散货与小批量零售差异大'},
+ ldpe:{phys:'partial',chem:'partial', price:'partial', note:'PE 仅取到线性 7042 现货（S04），LDPE 薄膜料按高压料溢价推算'},
+ hdpe:{phys:'partial',chem:'partial', price:'partial', note:'HDPE 各牌号价差大（拉丝/注塑/中空），区间为跨牌号覆盖'},
+ pp:  {phys:'partial',chem:'partial', price:'verified',note:'价格有华东拉丝现货直接报价（S02/S04）；透明成核牌号另计'},
+ abs: {phys:'partial',chem:'partial', price:'verified',note:'价格有 HI-121H 与 0215A 两个主流牌号现货（S01/S04）'},
+ pet: {phys:'partial',chem:'verified',price:'verified',note:'耐化有包装实践与机理双来源（S10/S11）；价格有水瓶级现货（S01/S04）'},
+ petg:{phys:'partial',chem:'partial', price:'partial', note:'Eastar 系列进口为主，国内报价散，按牌号区间覆盖'},
+ pcta:{phys:'partial',chem:'partial', price:'inferred',note:'PCTA 牌号间价差极大（AN001 15 元/kg vs MXF221 34 元/kg），区间为跨度而非单一牌号'},
+ pctg:{phys:'partial',chem:'partial', price:'partial', note:'Tritan 各牌号 26–52 元/kg，区间反映牌号与批量差异'}
+};
+
+/* 来源冲突登记 */
+const CFN=[
+ {id:'C1',item:'PET × 丙酮 / 甲苯',a:'S12：称 PET 对丙酮、苯、甲苯"稳定"',b:'S10 / S11：丙酮数分钟软化，甲苯渗入非晶区溶胀，均不可用',
+  take:'采纳 S10 / S11 → 酮 1（差）、芳烃 1（差）',why:'S12 未给测试条件（浓度、时间、是否带应力），且与包装行业普遍实践相反；两条独立来源一致，证据更强。S12 保留在案供复核。'},
+ {id:'C2',item:'PS × 85% 乙醇',a:'S05：24 h 无负载、23 °C 判 B（Fair，一般可用）',b:'包材实际场景：注塑件带残余应力，醇类是最常见 ESC 诱因',
+  take:'采纳 1（差），不采纳 B 档',why:'S05 的测试前提是「无负载」；本品平台面向带应力的成型件，按 ESC 保守下调。属方法学下调，不是数据错误，故在变更记录中单独标注。'},
+ {id:'C3',item:'PMMA × 乙醇',a:'部分通用图表标 limited resistance（有限耐受）',b:'S09 引 Evonik：95% 乙醇 not resistant；S08 实验：醇类 30 d 致表面结晶与银纹',
+  take:'采纳 1（差）',why:'厂牌评级与同行评议实验一致指向不耐受；通用图表的 "limited" 多基于短时擦拭，不适用于长期接触内容物。'},
+ {id:'C4',item:'PET × 稀碱',a:'稀碱短期可用（实验室器皿常规接触）',b:'S11：稀碱长期接触亦使表面开裂发黏；浓碱快速降解',
+  take:'采纳 2（中），条件限定为「稀碱、短期」',why:'取中间档并把条件写进风险项；浓碱仍按一票否决处理（见 PET 风险项第 1 条）。'},
+ {id:'C5',item:'全部树脂 × 价格',a:'平台原值（PET 5,500–7,000、PP 6,500–9,500 等）',b:'S01–S04、S13–S15：2026-11 现货普遍高出 40–70%',
+  take:'采纳新行情值，原值作废',why:'原值量级对应 2024 年行情，未随 2025–2026 原油与供需变化更新，属实质性误差，已全量重标并留痕（见变更记录 R2）。'}
+];
+
+/* 变更记录：R1 评级核对轮，R2 价格复核轮 */
+const CHG=[
+ {r:'R2',date:'2026-11-03',obj:'全材料',field:'价格区间',from:'见各行',to:'按 2026-11 现货重标',src:'S01–S04 / S13–S15',why:'原值量级停留在 2024 年，普遍偏低 40–70%'},
+ {r:'R2',date:'2026-11-03',obj:'PS / GPPS',field:'price',from:'7,000–9,000',to:'10,200–12,300',src:'S03 / S04',why:'华东普通透苯现货 11,900–12,200，Q4 均价预测 10,200–11,400'},
+ {r:'R2',date:'2026-11-03',obj:'AS / SAN',field:'price',from:'8,000–13,000',to:'13,000–16,500',src:'推算（S03 + 加工溢价）',why:'按透苯价加 2,000–4,000 元/吨加工溢价'},
+ {r:'R2',date:'2026-11-03',obj:'MS / SMMA',field:'price',from:'13,000–25,000',to:'18,000–30,000',src:'推算',why:'进口 NAS 专用牌号，对标 PMMA 溢价区间'},
+ {r:'R2',date:'2026-11-03',obj:'PMMA',field:'price',from:'11,000–17,000',to:'18,000–26,000',src:'S01（MMA 13,350）/ S14',why:'PMMA 为 MMA 下游，散货 18–26，小批量零售 24–35 元/kg'},
+ {r:'R2',date:'2026-11-03',obj:'LDPE',field:'price',from:'8,400–11,000',to:'12,000–13,500',src:'S04（PE 7042 10,750）',why:'高压薄膜料对线性料有溢价，按 12,000–13,500 覆盖'},
+ {r:'R2',date:'2026-11-03',obj:'HDPE',field:'price',from:'7,000–9,000',to:'9,500–11,500',src:'推算（S04）',why:'HDPE 拉丝/注塑/中空跨牌号区间'},
+ {r:'R2',date:'2026-11-03',obj:'PP',field:'price',from:'6,500–9,500',to:'11,300–12,500',src:'S02 / S04',why:'华东拉丝现货 11,550–11,750；透明成核牌号另见注记 13,000–17,000'},
+ {r:'R2',date:'2026-11-03',obj:'ABS',field:'price',from:'8,000–12,000',to:'12,500–14,500',src:'S01 / S04',why:'HI-121H 13,200–13,400；0215A 11,900'},
+ {r:'R2',date:'2026-11-03',obj:'PET',field:'price',from:'5,500–7,000',to:'8,700–9,200',src:'S01 / S04',why:'水瓶级华东现货 8,900–9,050，卓创 8,925'},
+ {r:'R2',date:'2026-11-03',obj:'PETG',field:'price',from:'10,000–21,000',to:'14,000–22,000',src:'推算（S13/S14 同类共聚酯）',why:'按共聚酯牌号梯度插值'},
+ {r:'R2',date:'2026-11-03',obj:'PCTA',field:'price',from:'11,000–38,000',to:'15,000–35,000',src:'S15 / S14',why:'原下沿 11,000 无依据；实测 AN001 15 元/kg 起、MXF221 34 元/kg'},
+ {r:'R2',date:'2026-11-03',obj:'PCTG',field:'price',from:'40,000–50,000',to:'30,000–52,000',src:'S13 / S14',why:'Tritan 26–38 元/kg 至 52,000 元/吨，原区间未覆盖低端牌号'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'PS / GPPS',field:'chem 香精 / 抛射剂',from:'1 / 1',to:'0 / 0',src:'S05 / S07',why:'柠檬烯与 LPG 对透苯为溶解级，原判"差"低估'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'PET',field:'chem 酮 / 芳烃 / 氯代烃',from:'3 / 2 / 1',to:'1 / 1 / 0',src:'S10 / S11',why:'丙酮数分钟软化、甲苯溶胀、二氯甲烷溶解，原判明显偏高'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'PP',field:'chem 芳烃 / 抛射剂',from:'2 / 2',to:'1 / 3',src:'S06 / S07',why:'甲苯二甲苯攻击 PP；PP 对烷烃优于 PE'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'MS / SMMA',field:'chem 醇',from:'2',to:'4',src:'S09 同类丙烯酸-苯乙烯体系',why:'缺腈基，耐醇显著优于 AS/PMMA'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'PCTA / PCTG',field:'chem 醇',from:'3 / 3',to:'4 / 4',src:'S13 牌号说明（耐化学耐水解）',why:'高 CHDM 共聚酯对醇体积变化极小'},
+ {r:'R1',date:'2026-11（初版核对）',obj:'PCTA',field:'chem 香精',from:'2',to:'4',src:'S13',why:'Cristal 系抗芳油银纹为香水包材主力'}
+];
+
+const M=[
+{id:'gpps',k:'PS / GPPS',full:'通用聚苯乙烯（透苯）',en:'General Purpose Polystyrene',fam:'sty',
+ price:[10200,12300],note:'HIPS 改苯再低 5–10%',
+ d:{density:1.05,trans:89,impact:2.0,tensile:50,hdt:78,shrink:0.55,hotfill:70,weather:1,o2:2,wv:2,ri:1.59,hard:'B–HB'},
+ proc:['注塑','挤出','吸塑','发泡'],
+ procT:'180–250 °C',
+ chem:{water:4,acid:4,surfactant:3,alcohol:1,oil:1,ester:0,fragrance:0,propellant:0,ketone:0,aromatic:0,chlorinated:0,salicylic:2,phenoxy:1,hap:2,carbomer:3,tio2:4,zno:4,avobenzone:1,omc:0,octocrylene:0,oxybenzone:1,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:3,niacin:3,txa:3,glab:3,kojic:3,vc:3,vcder:3,glu:3,ha:3,glycerin:3,cera:3,panthenol:3,urea:3,bg:3,pg:3,squalane:3,retinol:2,retpalm:2,proxylane:3,peptide:3,coq10:3,ergo:3},
+ use:['一次性透明杯与展示盒','化妆品内胆 / 内托','瓶盖内衬、试纸盒','低值透明包装'],
+ risk:[['t','极脆，跌落与跌落角测试必翻车，壁厚设计必须加强'],['t','油脂、醇类、酯类均为典型 ESC 介质，接触内容物几乎不可用'],['w','耐候差，光照 200 h 起黄变，户外与窗台陈列禁用'],['t','导热差、成型周期长但价格最低，仅适合低值一次性件']],
+ test:['跌落与角跌落（1.0 m，混凝土）','透光率 / 雾度（GB/T 2410）','ESC 筛查（油 + 醇，带应力）','顶压与堆码','气味与苯乙烯单体残留'],
+ brands:'奇美 PG-33 / 台化 GP5250 / 扬子巴斯夫 143E'},
+
+{id:'as',k:'AS / SAN',full:'丙烯腈-苯乙烯共聚物',en:'Styrene Acrylonitrile',fam:'sty',
+ price:[13000,16500],note:'AN 含量 20–35%，含量越高耐化学越好但越黄',
+ d:{density:1.07,trans:88,impact:2.5,tensile:68,hdt:90,shrink:0.50,hotfill:85,weather:2,o2:3,wv:2,ri:1.57,hard:'H–2H'},
+ proc:['注塑','挤出','吹塑'],
+ procT:'190–230 °C（窗口窄，>240 °C 黄变降解）',
+ chem:{water:4,acid:4,surfactant:3,alcohol:2,oil:4,ester:2,fragrance:0,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:3,phenoxy:2,hap:3,carbomer:3,tio2:4,zno:4,avobenzone:2,omc:2,octocrylene:2,oxybenzone:2,tdsa:4,sym377:3,rsc577:3,hr4:3,arbutin:3,niacin:3,txa:3,glab:3,kojic:3,vc:3,vcder:3,glu:3,ha:3,glycerin:3,cera:3,panthenol:3,urea:3,bg:3,pg:3,squalane:3,retinol:2,retpalm:2,proxylane:3,peptide:3,coq10:3,ergo:3},
+ use:['膏霜瓶、乳液瓶瓶身','粉盒与眼影盘壳体','乳液泵外罩、瓶肩','冰箱抽屉、牙刷柄（非包材参考）'],
+ risk:[['w','腈基带来高残余内应力，不退火极易 ESC，注塑后必须检应力'],['w','加工窗口窄，料筒滞留或超温即黄变，换料与停机需清料'],['t','韧性仍属中等，薄壁卡扣与扣位易断'],['w','AN 有食品接触迁移限值要求，接触类包材需确认合规牌号']],
+ test:['残余应力（偏光应力仪 / 溶剂浸泡法）','相容性（配方 + 加速介质，40 °C 30 d）','耐黄变（氙灯或 UV 老化）','跌落与顶压','AN 单体残留（食品接触类）'],
+ brands:'奇美 PN-117 / 台化 NF2200 / 英力士 SAN'},
+
+{id:'ms',k:'MS / SMMA',full:'MMA-苯乙烯共聚物',en:'Styrene-Methylmethacrylate',fam:'sty',
+ price:[18000,30000],note:'MMA 含量 30–70%，越高越接近 PMMA',
+ d:{density:1.10,trans:91,impact:3.0,tensile:62,hdt:85,shrink:0.50,hotfill:80,weather:4,o2:2,wv:2,ri:1.54,hard:'HB–H'},
+ proc:['注塑','挤出','挤吹'],
+ procT:'190–230 °C',
+ chem:{water:4,acid:3,surfactant:3,alcohol:4,oil:3,ester:2,fragrance:1,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:2,phenoxy:1,hap:2,carbomer:3,tio2:4,zno:4,avobenzone:1,omc:1,octocrylene:1,oxybenzone:1,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:3,niacin:3,txa:3,glab:3,kojic:3,vc:3,vcder:3,glu:3,ha:3,glycerin:3,cera:3,panthenol:3,urea:3,bg:3,pg:3,squalane:3,retinol:2,retpalm:2,proxylane:3,peptide:3,coq10:3,ergo:3},
+ use:['厚壁透明化妆品瓶与膏霜罐','口红管、粉盒、香水盖','PMMA 的低成本替代件','需韧性优于 PMMA 的透明结构件'],
+ risk:[['w','酯类与精油耐受偏弱，含高酯防晒剂或精油的配方需重点验证'],['t','耐油脂不如 AS（缺腈基），高油体系慎用'],['w','厚壁件易缩水凹陷与气泡，壁厚需控制在 4 mm 内或做结构掏胶'],['t','市场牌号少，供应链二元化难度高于 AS / PMMA']],
+ test:['相容性（酯 / 精油介质，带应力 40 °C 30 d）','厚壁件缩水与真空泡检验','透光率与雾度','跌落（优于 PMMA 但仍需验证）','耐候（优于 AS，仍需氙灯确认）'],
+ brands:'英力士 NAS 30 / NAS 90 / 电气化学 MS / 台湾奇美'},
+
+{id:'pmma',k:'PMMA',full:'聚甲基丙烯酸甲酯（亚克力）',en:'Polymethyl Methacrylate',fam:'acr',
+ price:[18000,26000],note:'浇铸级高于挤出注塑级，抗冲改性牌号再加 20–40%',
+ d:{density:1.18,trans:92.5,impact:2.0,tensile:68,hdt:92,shrink:0.45,hotfill:60,weather:5,o2:3,wv:2,ri:1.49,hard:'2H–3H'},
+ proc:['注塑','挤出','浇铸'],
+ procT:'200–250 °C（必须干燥 80 °C / 4 h 以上）',
+ chem:{water:3,acid:4,surfactant:4,alcohol:1,oil:4,ester:0,fragrance:1,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:2,phenoxy:1,hap:2,carbomer:3,tio2:4,zno:4,avobenzone:1,omc:0,octocrylene:0,oxybenzone:0,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:3,niacin:3,txa:3,glab:3,kojic:3,vc:2,vcder:3,glu:3,ha:3,glycerin:3,cera:3,panthenol:3,urea:3,bg:3,pg:3,squalane:3,retinol:1,retpalm:1,proxylane:3,peptide:3,coq10:3,ergo:3},
+ use:['高档膏霜瓶与精华瓶厚壁件','粉盒、口红管、香水瓶盖','展示架与陈列道具','需高耐刮的透明外观件'],
+ risk:[['b','醇类为头号杀手：乙醇 / 甲醇直接诱发银纹与开裂，高醇配方禁用直接接触'],['b','酯类与防晒剂原液会溶解溶胀，防晒品类基本不可用'],['w','极脆，冲击与 GPPS 同量级，跌落必测'],['w','内应力极敏感，厚壁注塑件必须退火（70–80 °C / 2–4 h）'],['t','密度最高（1.18），同等体积下单件最重，成本与运费双高']],
+ test:['醇类相容性（95% 乙醇，带应力，一票否决项）','残余应力（退火前后对比）','跌落与角跌落','耐刮（钢丝绒 / 铅笔硬度）','耐候（QUV 1000 h，通常最优）'],
+ brands:'三菱丽阳 VH001 / 赢宝 8N / 奇美 CM-205 / 阿科玛 Altuglas'},
+
+{id:'ldpe',k:'LDPE',full:'低密度聚乙烯',en:'Low Density Polyethylene',fam:'poly',
+ price:[12000,13500],note:'价格随原油波动最敏感',
+ d:{density:0.92,trans:45,impact:60,tensile:12,hdt:45,shrink:2.2,hotfill:80,weather:2,o2:1,wv:5,ri:1.51,hard:'Shore D 40–50'},
+ proc:['吹膜','挤出','注塑','吹塑'],
+ procT:'160–220 °C',
+ chem:{water:4,acid:4,surfactant:3,alcohol:4,oil:2,ester:3,fragrance:1,propellant:1,ketone:3,aromatic:1,chlorinated:1,salicylic:3,phenoxy:2,hap:3,carbomer:4,tio2:4,zno:4,avobenzone:2,omc:2,octocrylene:2,oxybenzone:2,tdsa:4,sym377:4,rsc577:4,hr4:4,arbutin:4,niacin:4,txa:4,glab:4,kojic:4,vc:4,vcder:4,glu:4,ha:4,glycerin:4,cera:4,panthenol:4,urea:4,bg:4,pg:4,squalane:4,retinol:4,retpalm:4,proxylane:4,peptide:4,coq10:4,ergo:4},
+ use:['化妆品软管管体与片材（最主流）','瓶体内塞、垫片、软盖','薄膜袋、收缩膜','挤压瓶（洗面奶、护手霜）'],
+ risk:[['w','耐温极低（HDT 45 °C），热灌装与高温运输会变形'],['w','阻隔性差：透氧高，易导致内容物氧化变色，需 EVOH 共挤或铝塑复合'],['t','刚性差，无法做结构承重件；表面能低，印刷与烫印需电晕/火焰处理'],['w','烷烃抛射剂与油脂会缓慢溶胀，气雾剂与高油体系注意壁厚损失']],
+ test:['封口强度与密封性（软管尾封 / 管肩）','透氧率与内容物氧化加速（40 °C 3 月）','耐环境应力开裂（ESCR）','挤压回弹性与复原','印刷附着力（达因值 ≥ 38）'],
+ brands:'埃克森美孚 LD 165 / 扬子巴斯夫 2426H / 陶氏 4012'},
+
+{id:'hdpe',k:'HDPE',full:'高密度聚乙烯',en:'High Density Polyethylene',fam:'poly',
+ price:[9500,11500],note:'ESCR 牌号溢价 10–20%',
+ d:{density:0.95,trans:0,impact:15,tensile:28,hdt:70,shrink:2.0,hotfill:90,weather:2,o2:1,wv:5,ri:1.54,hard:'Shore D 60–70'},
+ proc:['吹塑','注塑','挤出','吹膜'],
+ procT:'180–250 °C',
+ chem:{water:4,acid:4,surfactant:3,alcohol:4,oil:3,ester:3,fragrance:1,propellant:2,ketone:3,aromatic:1,chlorinated:1,salicylic:3,phenoxy:2,hap:3,carbomer:4,tio2:4,zno:4,avobenzone:2,omc:2,octocrylene:2,oxybenzone:2,tdsa:4,sym377:4,rsc577:4,hr4:4,arbutin:4,niacin:4,txa:4,glab:4,kojic:4,vc:4,vcder:4,glu:4,ha:4,glycerin:4,cera:4,panthenol:4,urea:4,bg:4,pg:4,squalane:4,retinol:4,retpalm:4,proxylane:4,peptide:4,coq10:4,ergo:4},
+ use:['洗发水 / 沐浴露 / 护发素瓶（绝对主力）','瓶盖与翻盖（含铰链盖）','不透明乳液瓶、软管','日化大包装桶'],
+ risk:[['b','ESCR 是头号失效模式：表面活性剂与洗涤剂环境下慢速开裂，必须选高 ESCR 牌号'],['w','成型收缩率大（1.5–3%），尺寸与螺纹配合公差难控，模具需预留'],['w','完全不透明，无法做透明可视效果（仅可半透乳白）'],['t','表面能低，印刷/贴标/烫印必须做电晕或火焰预处理，且附着力会随时间衰减']],
+ test:['ESCR（GB/T 1842 或 ASTM D1693，试剂法，≥ 200 h 不裂）','跌落（常温 + 0 °C）','壁厚分布（吹塑件 12 点测厚）','顶压与堆码','印刷附着力与衰减（百格 + 老化后复测）'],
+ brands:'埃克森美孚 HMA 016 / 陶氏 5960G / 中石化 5000S / 北欧化工'},
+
+{id:'pp',k:'PP',full:'聚丙烯（共聚 PPC）',en:'Polypropylene Copolymer',fam:'poly',
+ price:[11300,12500],note:'透明成核 PP 13,000–17,000',
+ d:{density:0.90,trans:0,impact:12,tensile:33,hdt:95,shrink:1.5,hotfill:100,weather:2,o2:1,wv:5,ri:1.49,hard:'Shore D 70–75'},
+ proc:['注塑','挤吹','挤出','吸塑','烫印'],
+ procT:'200–250 °C',
+ chem:{water:4,acid:4,surfactant:4,alcohol:4,oil:3,ester:3,fragrance:3,propellant:3,ketone:4,aromatic:1,chlorinated:1,salicylic:4,phenoxy:3,hap:4,carbomer:4,tio2:4,zno:4,avobenzone:3,omc:3,octocrylene:3,oxybenzone:3,tdsa:4,sym377:4,rsc577:4,hr4:4,arbutin:4,niacin:4,txa:4,glab:4,kojic:4,vc:4,vcder:4,glu:4,ha:4,glycerin:4,cera:4,panthenol:4,urea:4,bg:4,pg:4,squalane:4,retinol:4,retpalm:4,proxylane:4,peptide:4,coq10:4,ergo:4},
+ use:['瓶盖与翻盖（盖类绝对主力）','膏霜瓶、睫毛膏管、粉盒','软管管体与肩部','不透明乳液瓶、真空瓶外壳'],
+ risk:[['b','耐候最差：叔碳氢易氧化，户外与窗台陈列必须加受阻胺光稳定剂 + 抗氧剂，否则 3–6 月粉化'],['w','均聚 PP 低温脆（0 °C 以下冲击骤降），需共聚或增韧牌号'],['w','表面能极低，印刷/喷涂/粘接前必须电晕、火焰或等离子处理'],['t','收缩率大且方向性强，翘曲与尺寸控制是模具设计难点']],
+ test:['耐候（QUV / 氙灯 500–1000 h，色差 ΔE 与粉化）','低温跌落（0 °C 与 -5 °C）','铰链疲劳（PP 一体铰链，≥ 5000 次）','表面能（达因笔 ≥ 38）与印刷附着力','耐化学（PP 通常最优，多数可直接放行）'],
+ brands:'埃克森美孚 7032E3 / 巴塞尔 RP340R / 中石化 K8003 / 北欧化工'},
+
+{id:'abs',k:'ABS',full:'丙烯腈-丁二烯-苯乙烯共聚物',en:'Acrylonitrile Butadiene Styrene',fam:'sty',
+ price:[12500,14500],note:'电镀级高于通用级 15–25%',
+ d:{density:1.05,trans:0,impact:22,tensile:48,hdt:92,shrink:0.55,hotfill:85,weather:1,o2:2,wv:2,ri:1.53,hard:'HB–H（洛氏 R 100–115）'},
+ proc:['注塑','挤出','电镀','喷涂'],
+ procT:'200–240 °C（需干燥 80 °C / 2–4 h）',
+ chem:{water:4,acid:4,surfactant:3,alcohol:2,oil:3,ester:1,fragrance:0,propellant:2,ketone:0,aromatic:0,chlorinated:0,salicylic:2,phenoxy:1,hap:2,carbomer:3,tio2:4,zno:4,avobenzone:1,omc:1,octocrylene:0,oxybenzone:1,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:3,niacin:3,txa:3,glab:3,kojic:3,vc:3,vcder:3,glu:3,ha:3,glycerin:3,cera:3,panthenol:3,urea:3,bg:3,pg:3,squalane:3,retinol:2,retpalm:2,proxylane:3,peptide:3,coq10:3,ergo:3},
+ use:['化妆品外壳、粉盒与口红管壳体（电镀件首选）','瓶盖外层与装饰环','真空瓶外壳、气垫盒','需电镀 / 喷涂 / 烫金的高外观件'],
+ risk:[['b','电镀件对残余应力零容忍：未退火或应力集中会导致镀层起泡脱落，电镀前必须应力筛查'],['w','酮、酯、芳烃直接溶解或严重 ESC，任何溶剂型油墨与胶黏剂都可能咬底'],['w','耐候最差之一：丁二烯双键易氧化黄变，浅色件与户外件需 ASA 替代'],['t','不透明本色米黄，透明需求不可用；密度 1.05 中等偏重']],
+ test:['电镀附着力（百格 + 冷热循环 + CASS）','残余应力（冰醋酸浸泡法，电镀件必检）','喷涂 / 烫金附着力','跌落与结构强度','耐候黄变（浅色件必测）'],
+ brands:'奇美 PA-757 / PA-727（电镀级）/ LG HI-121 / 台化 AG15A1'},
+
+{id:'pet',k:'PET',full:'聚对苯二甲酸乙二醇酯',en:'Polyethylene Terephthalate',fam:'pes',
+ price:[8700,9200],note:'瓶级切片，透明树脂中性价比最高',
+ d:{density:1.35,trans:88,impact:5,tensile:60,hdt:75,shrink:0.60,hotfill:70,weather:4,o2:4,wv:4,ri:1.57,hard:'H–2H'},
+ proc:['注拉吹 ISBM','挤吹 EBM','注塑'],
+ procT:'瓶坯 260–290 °C（必须干燥 160 °C / 4–6 h）',
+ chem:{water:4,acid:2,surfactant:2,alcohol:3,oil:4,ester:2,fragrance:2,propellant:3,ketone:1,aromatic:1,chlorinated:0,salicylic:3,phenoxy:2,hap:3,carbomer:3,tio2:4,zno:3,avobenzone:2,omc:2,octocrylene:2,oxybenzone:2,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:4,niacin:4,txa:4,glab:3,kojic:4,vc:2,vcder:4,glu:4,ha:4,glycerin:4,cera:3,panthenol:4,urea:4,bg:3,pg:3,squalane:3,retinol:3,retpalm:3,proxylane:4,peptide:4,coq10:3,ergo:4},
+ use:['精华 / 化妆水 / 乳液瓶（注拉吹）','防晒喷雾与气雾剂透明瓶','食用油与饮料瓶','透明厚壁瓶（部分挤吹）'],
+ risk:[['b','不耐强碱：碱性内容物会皂化水解开裂，配方 pH 必须控制在中性偏酸'],['b','高温高湿水解：加工前必须充分干燥，含水率 > 50 ppm 即降解发脆'],['w','酯类与表面活性剂会诱发 ESC，瓶颈螺纹与肩部应力集中区为高发位'],['w','热灌与高温运输易变形（HDT 75 °C），需热定型或选耐热牌号']],
+ test:['相容性（实际配方 + 加速介质，40 °C / 50 °C）','残余应力（偏光应力仪，瓶颈必检）','乙醛残留与气味','热灌 / 高温尺寸稳定性','阻隔与保质期内失重（40 °C 3 月）'],
+ brands:'华润 CR-8816 / 三房巷 / 万凯 / 远纺 CB-602'},
+
+{id:'petg',k:'PETG',full:'CHDM 改性 PET 共聚酯',en:'Glycol-Modified PET',fam:'pes',
+ price:[14000,22000],note:'片材级低于注塑级',
+ d:{density:1.27,trans:90,impact:11,tensile:50,hdt:70,shrink:0.35,hotfill:60,weather:3,o2:3,wv:3,ri:1.57,hard:'HB–H'},
+ proc:['注塑','挤出片材','吸塑','挤吹'],
+ procT:'220–260 °C（需干燥 65 °C / 4–6 h）',
+ chem:{water:3,acid:3,surfactant:3,alcohol:1,oil:3,ester:1,fragrance:1,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:2,phenoxy:1,hap:2,carbomer:3,tio2:4,zno:3,avobenzone:1,omc:1,octocrylene:1,oxybenzone:1,tdsa:3,sym377:3,rsc577:3,hr4:3,arbutin:4,niacin:4,txa:4,glab:3,kojic:4,vc:2,vcder:4,glu:4,ha:4,glycerin:4,cera:3,panthenol:4,urea:4,bg:3,pg:3,squalane:3,retinol:3,retpalm:3,proxylane:4,peptide:4,coq10:3,ergo:4},
+ use:['厚壁透明化妆品瓶与膏霜罐（不需吹塑）','吸塑泡壳、展示盒、彩妆盘','注塑厚壁异形件','需超声焊 / 粘接 / 印刷的透明件'],
+ risk:[['b','醇类为最大坑：乙醇直接诱发银纹与开裂，高醇配方禁用于直接接触件'],['w','HDT 仅 70 °C，夏季运输与热灌会变形，集装箱运输需评估箱内温度'],['w','酯类与精油耐受弱，防晒与香氛类需重点验证'],['t','必须干燥，吸湿水解后冲击骤降；挤出片材易粘模与析出']],
+ test:['醇类相容性（95% 乙醇带应力，一票否决项）','耐热变形（50 °C / 70 °C 载荷变形）','干燥后含水率（≤ 200 ppm）','透光率与雾度（吸塑后复测）','跌落（韧性优于 PET，通常易通过）'],
+ brands:'伊士曼 Eastar 6763 / SK Skygreen S2008 / 华润'},
+
+{id:'pcta',k:'PCTA',full:'酸改性共聚酯（CHDM + IPA）',en:'Acid-Modified Copolyester',fam:'pes',
+ price:[15000,35000],note:'定位 PETG 与 PCTG 之间',
+ d:{density:1.22,trans:91,impact:16,tensile:52,hdt:80,shrink:0.35,hotfill:70,weather:4,o2:3,wv:3,ri:1.56,hard:'HB–H'},
+ proc:['注塑','挤吹','挤出'],
+ procT:'230–270 °C（需干燥 65 °C / 4–6 h）',
+ chem:{water:4,acid:3,surfactant:3,alcohol:4,oil:4,ester:3,fragrance:4,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:3,phenoxy:2,hap:3,carbomer:4,tio2:4,zno:3,avobenzone:2,omc:2,octocrylene:2,oxybenzone:2,tdsa:4,sym377:3,rsc577:3,hr4:3,arbutin:4,niacin:4,txa:4,glab:3,kojic:4,vc:2,vcder:4,glu:4,ha:4,glycerin:4,cera:3,panthenol:4,urea:4,bg:3,pg:3,squalane:3,retinol:3,retpalm:3,proxylane:4,peptide:4,coq10:3,ergo:4},
+ use:['高档香水瓶与精华瓶厚壁件','需耐醇又要求厚壁透明的场合','PETG 醇敏失效后的升级路径','化妆品泵头与喷雾器透明件'],
+ risk:[['w','价格显著高于 PETG（+60% 以上），需评估溢价能否被外观价值吸收'],['t','酯类耐受仍属中等，高酯防晒配方仍需实测'],['w','耐刮不如 PMMA，外观件若要求高耐刮需加硬涂或改 PMMA'],['t','牌号选择面窄，供应链二元化难度高']],
+ test:['醇类相容性（较 PETG 明显改善，但仍需实测）','透光率与雾度','跌落与韧性（优于 PETG）','耐化学（油 / 酯 / 精油）','成本与外观价值评估'],
+ brands:'伊士曼 Eastar AN001 / Embrace / SK Skygreen'},
+
+{id:'pctg',k:'PCTG',full:'高 CHDM 共聚酯',en:'High-CHDM Copolyester',fam:'pes',
+ price:[30000,52000],note:'不含双酚 A，常作 PC 替代',
+ d:{density:1.20,trans:91,impact:22,tensile:50,hdt:90,shrink:0.40,hotfill:85,weather:4,o2:3,wv:3,ri:1.55,hard:'HB–H'},
+ proc:['注塑','挤吹','挤出','吸塑'],
+ procT:'230–270 °C（需干燥 65 °C / 4–6 h，不可高温干燥）',
+ chem:{water:4,acid:4,surfactant:3,alcohol:4,oil:4,ester:3,fragrance:3,propellant:3,ketone:0,aromatic:0,chlorinated:0,salicylic:3,phenoxy:3,hap:3,carbomer:4,tio2:4,zno:3,avobenzone:3,omc:3,octocrylene:3,oxybenzone:2,tdsa:4,sym377:3,rsc577:3,hr4:3,arbutin:4,niacin:4,txa:4,glab:3,kojic:4,vc:2,vcder:4,glu:4,ha:4,glycerin:4,cera:3,panthenol:4,urea:4,bg:3,pg:3,squalane:3,retinol:3,retpalm:3,proxylane:4,peptide:4,coq10:3,ergo:4},
+ use:['高档化妆品厚壁透明瓶（香水、精华）','需高韧 + 高透明 + 耐化学的场合','PC 的 BPA-free 替代方案','运动水壶与小家电透明件（参考）'],
+ risk:[['t','价格最高档，接近 PMMA，成本敏感项目需谨慎'],['w','耐刮不如 PMMA（HB–H vs 2H–3H），高外观件需评估'],['w','酮类、芳烃、氯代烃仍全溶，溶剂型油墨与胶黏剂会咬底'],['t','干燥温度必须控制在 65 °C 以下，高温干燥会结块']],
+ test:['耐化学（醇 / 酯 / 油，通常为本组最优）','跌落（韧性接近 PC，通常表现优异）','耐刮（钢丝绒，若对标 PMMA 需加硬涂）','透光率与雾度','BPA 与食品接触合规文件'],
+ brands:'伊士曼 Tritan TX1001 / TX2001 / Eastar DN010 / SK'}
+];
+
+const METRICS=[
+ {k:'density',n:'密度 g/cm³',dir:-1,fmt:v=>v.toFixed(2)},
+ {k:'trans',n:'透光率 %',dir:1,fmt:v=>v>0?v.toFixed(0):'不透明'},
+ {k:'impact',n:'缺口冲击 kJ/m²',dir:1,fmt:v=>v>=60?'＞50 不断裂':v.toFixed(1)},
+ {k:'tensile',n:'拉伸强度 MPa',dir:1,fmt:v=>v.toFixed(0)},
+ {k:'hdt',n:'HDT °C',dir:1,fmt:v=>v.toFixed(0)},
+ {k:'hotfill',n:'高温灌装温度 °C',dir:1,fmt:v=>v.toFixed(0)},
+ {k:'shrink',n:'收缩率 %',dir:-1,fmt:v=>v.toFixed(2)},
+ {k:'weather',n:'耐候评分',dir:1,fmt:v=>'★'.repeat(v)+'☆'.repeat(5-v)},
+ {k:'o2',n:'氧气阻隔',dir:1,fmt:v=>'★'.repeat(v)+'☆'.repeat(5-v)},
+ {k:'wv',n:'水蒸气阻隔',dir:1,fmt:v=>'★'.repeat(v)+'☆'.repeat(5-v)}
+];
+
+const SCEN=[
+ {k:'water',n:'水基中性',d:'化妆水、精华、中性乳液',w:{chem:1.0},media:['water']},
+ {k:'surfactant',n:'表活体系',d:'洗发水、沐浴露、洁面',w:{chem:1.2},media:['surfactant']},
+ {k:'alcohol',n:'高醇体系',d:'香水、发胶、醇基喷雾',w:{chem:1.5},media:['alcohol']},
+ {k:'oil',n:'高油体系',d:'护肤油、卸妆油、硅油',w:{chem:1.3},media:['oil']},
+ {k:'ester',n:'酯类 / 防晒剂',d:'含 EHMC / EHS / Homosalate、IPM',w:{chem:1.5},media:['ester']},
+ {k:'fragrance',n:'含精油香氛',d:'柠檬烯、芳樟醇等萜烯',w:{chem:1.3},media:['fragrance']},
+ {k:'propellant',n:'气雾剂抛射剂',d:'丙丁烷 LPG / DME',w:{chem:1.2},media:['propellant']},
+ {k:'acid',n:'极端 pH',d:'强酸或强碱配方',w:{chem:1.1},media:['acid']},
+ {k:'organicUV',n:'油溶化学防晒剂',d:'阿伏苯宗 / OMC / 奥克立林 / 二苯酮-3 + 醇载体',w:{chem:1.6},media:['ester','omc','octocrylene','avobenzone','oxybenzone','alcohol']},
+ {k:'mineralUV',n:'物理防晒粉体',d:'二氧化钛 / 氧化锌，惰性但查磨损与光催化',w:{chem:1.0},media:['tio2','zno']},
+ {k:'phenoxy',n:'苯氧乙醇防腐',d:'含苯氧乙醇体系，苯乙烯类与 ABS 高危',w:{chem:1.3},media:['phenoxy','alcohol']},
+ {k:'salicylic',n:'水杨酸 / 酸类活性',d:'BHA、果酸等酸性活性物',w:{chem:1.2},media:['salicylic','alcohol']},
+ {k:'tdsa',n:'水溶防晒体系',d:'TDSA 二钠等磺酸盐水性防晒',w:{chem:1.0},media:['tdsa']}
+];
+
+// 场景化学分：相关介质加权均值，叠加「最弱链」惩罚（任一溶解/差项致命化）
+function chemScore(m,scen){
+  const rs=scen.media.map(k=>m.chem[k]);
+  const avg=rs.reduce((a,b)=>a+b,0)/rs.length;
+  const minR=Math.min.apply(null,rs);
+  const mult=minR===0?0.15:minR===1?0.55:minR===2?0.85:1;
+  return avg/4*100*mult;
+}
+
+let state={pane:'lib',pick:['pet','pmma','as','petg'],scen:'ester',proc:'any',mg:'all',
+ w:{trans:3,tough:3,heat:2,weather:2,cost:3}};
+
+const $=s=>document.querySelector(s);
+const mid=p=>Math.round((p[0]+p[1])/2);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function renderCards(filter){
+  const f=(filter||'').trim().toLowerCase();
+  const list=M.filter(m=>!f||(m.k+m.full+m.en+m.use.join()+m.brands+m.proc.join()).toLowerCase().includes(f));
+  $('#cards').innerHTML=list.length?list.map(m=>{
+    const fc=FAM[m.fam].c;
+    return '<div class="card" style="--fc:'+fc+'" data-id="'+m.id+'">'
+      +'<div class="ct"><b>'+esc(m.k)+'</b><i>'+esc(m.en)+'</i></div>'
+      +'<div class="cfull">'+esc(m.full)+'</div>'
+      +'<span class="tag f">'+FAM[m.fam].n+'</span>'
+      +(m.d.trans>=80?'<span class="tag">高透明</span>':m.d.trans>0?'<span class="tag">半透明</span>':'<span class="tag">不透明</span>')
+      +'<div class="crow"><span>参考价</span><b>'+m.price[0].toLocaleString()+'–'+m.price[1].toLocaleString()+'</b></div>'
+      +'<div class="crow"><span>缺口冲击</span><b>'+METRICS[2].fmt(m.d.impact)+'</b></div>'
+      +'<div class="crow"><span>HDT</span><b>'+m.d.hdt+' °C</b></div>'
+      +'<div class="pbar"><i style="width:'+Math.round(mid(m.price)/400)+'%"></i></div>'
+      +'</div>';
+  }).join(''):'<div class="blank">没有匹配的材料</div>';
+  document.querySelectorAll('.card').forEach(c=>c.onclick=()=>openSheet(c.dataset.id));
+}
+
+function openSheet(id){
+  const m=M.find(x=>x.id===id), fc=FAM[m.fam].c;
+  const kv=[['密度',m.d.density+' g/cm³'],['透光率',m.d.trans>0?m.d.trans+' %':'不透明'],['折射率',m.d.ri],
+    ['缺口冲击',METRICS[2].fmt(m.d.impact)],['拉伸强度',m.d.tensile+' MPa'],['铅笔硬度',m.d.hard],
+    ['HDT (1.82MPa)',m.d.hdt+' °C'],['高温灌装温度',m.d.hotfill+' °C'],['成型收缩率',m.d.shrink+' %'],['氧气阻隔','★'.repeat(m.d.o2)],
+    ['水蒸气阻隔','★'.repeat(m.d.wv)],['耐候','★'.repeat(m.d.weather)],['加工温度',m.procT]];
+  $('#sheet').innerHTML=
+   '<div class="shead"><div><h2 style="color:'+fc+'">'+esc(m.k)+'　<span style="font-size:13px;color:var(--tx2);font-weight:400">'+esc(m.full)+'</span></h2>'
+   +'<p>'+esc(m.en)+'　·　'+FAM[m.fam].n+'　·　参考价 '+m.price[0].toLocaleString()+'–'+m.price[1].toLocaleString()+' 元/吨'
+   +(m.note?'　·　'+esc(m.note):'')+'</p></div>'
+   +'<button class="x" onclick="closeM()">×</button></div>'
+   +'<h3>关键物性</h3><div class="kv">'+kv.map(x=>'<div><span>'+x[0]+'</span><b>'+esc(String(x[1]))+'</b></div>').join('')+'</div>'
+   +'<h3>耐化学性（0 溶解 → 4 优）</h3>'
+   +MGRP.map(g=>'<div style="font-size:12px;color:'+GCOLOR[g.k]+';margin:9px 0 4px">'+g.n+'</div><div class="chk">'
+     +MEDIA.filter(x=>x.g===g.k).map(md=>'<span class="chkb s'+m.chem[md.k]+'" title="'+esc(md.d)+'">'+esc(md.n)+' '+LBL[m.chem[md.k]]+'</span>').join('')
+     +'</div>').join('')
+   +'<h3>典型包材应用</h3><div>'+m.use.map(u=>'<span class="pill">'+esc(u)+'</span>').join('')+'</div>'
+   +'<h3>加工方式</h3><div>'+m.proc.map(p=>'<span class="pill">'+esc(p)+'</span>').join('')+'<span class="pill" style="color:var(--ac)">'+esc(m.procT)+'</span></div>'
+   +'<h3>风险与限制</h3><ul class="risk">'+m.risk.map(r=>'<li class="'+(r[0]==='b'?'bad':r[0]==='w'?'warn':'')+'">'+esc(r[1])+'</li>').join('')+'</ul>'
+   +'<h3>入厂 / 新品验证必检项</h3><ul class="risk">'+m.test.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>'
+   +'<h3>常见牌号</h3><p style="font-size:13px;color:var(--tx2)">'+esc(m.brands)+'</p>'
+   +'<h3>数据来源与核对状态</h3>'
+   +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">'
+     +['phys','chem','price'].map((k,ix)=>'<span class="st st-'+AUD[m.id][k][0]+'" title="'+esc(ST[AUD[m.id][k]].d)+'">'+['物性','耐化学','价格'][ix]+'：'+ST[AUD[m.id][k]].i+' '+ST[AUD[m.id][k]].n+'</span>').join('')
+   +'</div>'
+   +'<p style="font-size:12.5px;color:var(--tx3);line-height:1.7">'+esc(AUD[m.id].note)+'。来源编号与完整引用见「数据溯源」页；评级口径见配套 WORD《包材树脂耐化学评级口径说明》。价格随行情波动，具体牌号与实测请以供应商 COA 为准。</p>';
+  $('#modal').classList.add('on');
+}
+function closeM(){$('#modal').classList.remove('on')}
+$('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
+
+function renderCmp(){
+  $('#cmpPick').innerHTML=M.map(m=>'<button class="btn '+(state.pick.includes(m.id)?'on':'')+'" data-id="'+m.id+'">'+esc(m.k)+'</button>').join('');
+  document.querySelectorAll('#cmpPick .btn').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.id, i=state.pick.indexOf(id);
+    if(i>=0){if(state.pick.length>1)state.pick.splice(i,1)}
+    else{if(state.pick.length>=6)return alert('最多对比 6 种');state.pick.push(id)}
+    renderCmp();
+  });
+  const list=state.pick.map(id=>M.find(m=>m.id===id));
+  let h='<div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px"><table style="min-width:720px"><thead><tr><th>指标</th>'
+    +list.map(m=>'<th style="text-align:right;color:'+FAM[m.fam].c+'">'+esc(m.k)+'</th>').join('')+'</tr></thead><tbody>';
+  METRICS.forEach(mt=>{
+    const vals=list.map(m=>m.d[mt.k]);
+    const best=mt.dir>0?Math.max(...vals):Math.min(...vals);
+    h+='<tr><td>'+mt.n+'</td>'+list.map(m=>'<td class="n'+(m.d[mt.k]===best?' best':'')+'">'+mt.fmt(m.d[mt.k])+'</td>').join('')+'</tr>';
+  });
+  const pm=list.map(m=>mid(m.price));
+  h+='<tr><td>参考价 元/吨</td>'+list.map((m,i)=>'<td class="n'+(pm[i]===Math.min(...pm)?' best':'')+'">'+m.price[0].toLocaleString()+'–'+m.price[1].toLocaleString()+'</td>').join('')+'</tr>';
+  h+='<tr><td>相对成本指数</td>'+list.map((m,i)=>'<td class="n'+(pm[i]===Math.min(...pm)?' best':'')+'">'+(pm[i]/Math.min(...pm)).toFixed(2)+'</td>').join('')+'</tr>';
+  h+='</tbody></table></div>';
+  $('#cmpOut').innerHTML=h;
+}
+
+function renderMtx(){
+  $('#mgrp').innerHTML='<button class="btn '+(state.mg==='all'?'on':'')+'" data-g="all">全部 '+MEDIA.length+' 项</button>'
+    +MGRP.map(g=>'<button class="btn '+(state.mg===g.k?'on':'')+'" data-g="'+g.k+'"><span style="color:'+GCOLOR[g.k]+'">●</span> '+g.n+' '+MEDIA.filter(x=>x.g===g.k).length+'</button>').join('');
+  document.querySelectorAll('#mgrp .btn').forEach(b=>b.onclick=()=>{state.mg=b.dataset.g;renderMtx()});
+  const list=state.mg==='all'?MEDIA:MEDIA.filter(x=>x.g===state.mg);
+  let h='<table class="mtx"><thead><tr><th class="mn">介质</th>'+M.map(m=>'<th style="color:'+FAM[m.fam].c+'">'+esc(m.k)+'</th>').join('')+'</tr></thead><tbody>';
+  list.forEach(md=>{
+    h+='<tr><td class="mn" title="'+esc(md.d)+'"><span style="color:'+GCOLOR[md.g]+'">●</span> '+esc(md.n)+'</td>'
+      +M.map(m=>'<td><div class="cell s'+m.chem[md.k]+'" title="'+esc(m.k)+' · '+esc(md.n)+'：'+LBL[m.chem[md.k]]+'　'+esc(md.d)+'">'+LBL[m.chem[md.k]]+'</div></td>').join('')
+      +'</tr>';
+  });
+  h+='</tbody></table>';
+  $('#mtxOut').innerHTML=h;
+  renderRisk();
+}
+
+function renderRisk(){
+  const rows=M.map(m=>({m,
+    dis:MEDIA.filter(md=>m.chem[md.k]===0).map(md=>md.n),
+    bad:MEDIA.filter(md=>m.chem[md.k]===1).map(md=>md.n)}))
+    .map(r=>({...r,n:r.dis.length*2+r.bad.length})).sort((a,b)=>b.n-a.n);
+  $('#riskBox').innerHTML='<h3 style="margin-top:0">高危介质速查（按禁用项数量排序）</h3>'
+   +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px">'
+   +rows.map(r=>'<div style="background:var(--panel);border:1px solid var(--line);border-left:3px solid '
+     +(r.n>=8?'var(--bad)':r.n>=4?'var(--warn)':'var(--ok)')+';border-radius:8px;padding:11px 13px">'
+     +'<div style="font-weight:600;color:'+FAM[r.m.fam].c+';margin-bottom:5px">'+esc(r.m.k)
+     +'　<span style="font-size:11px;color:var(--tx3);font-weight:400">高危 '+r.n+' 项</span></div>'
+     +'<div style="font-size:12px;color:var(--tx2);line-height:1.65">'
+     +(r.dis.length?'<div><b style="color:var(--bad)">溶解：</b>'+r.dis.map(esc).join('、')+'</div>':'')
+     +(r.bad.length?'<div><b style="color:var(--warn)">差：</b>'+r.bad.map(esc).join('、')+'</div>':'')
+     +(!r.dis.length&&!r.bad.length?'<div style="color:var(--ok)">全谱系无溶解级介质，相对安全</div>':'')
+     +'</div></div>').join('')
+   +'</div>'
+   +'<h3>防晒配方包材三条结论</h3>'
+   +'<ul class="risk">'
+   +'<li class="bad">液态酯类防晒剂（OMC / 奥克立林）本身就是溶剂，不需要载体：PMMA 与 GPPS 直接判溶解，ABS 与 PETG 直接开裂。油溶化学防晒体系里这四种不可用。</li>'
+   +'<li class="warn">固体防晒剂（阿伏苯宗 / 二苯酮-3）的侵蚀主要来自其油相载体，换低极性载体比换树脂更见效；但二苯酮-3 对 PMMA 是强溶胀剂，属例外。</li>'
+   +'<li class="warn">苯氧乙醇不是惰性防腐剂，它是芳香族醚醇溶剂：含 1% 即对 ABS、PS、PMMA 形成实质侵蚀，配方里只要用到，苯乙烯类外壳件必须做带应力验证。</li>'
+   +'<li>二氧化钛与氧化锌化学惰性，风险不在耐化学而在另外两面：未包覆粉体的光催化加速老化（耐候问题）、高硬度粉体对泵芯与内塞配合面的磨蚀。氧化锌另需关注催化聚酯降解。</li>'
+   +'</ul>';
+}
+
+function renderPick(){
+  $('#scen').innerHTML=SCEN.map(s=>'<button class="btn '+(state.scen===s.k?'on':'')+'" data-s="'+s.k+'" title="'+esc(s.d)+'">'+esc(s.n)+'</button>').join('');
+  document.querySelectorAll('#scen .btn').forEach(b=>b.onclick=()=>{state.scen=b.dataset.s;renderPick()});
+  const SW=[['trans','透明度要求'],['tough','抗冲击 / 韧性'],['heat','耐热（HDT）'],['weather','耐候 / 抗黄变'],['cost','成本敏感度']];
+  $('#slBox').innerHTML=SW.map(s=>'<div class="sl"><label>'+s[1]+'<b>'+state.w[s[0]]+'</b></label>'
+    +'<input type="range" min="0" max="5" value="'+state.w[s[0]]+'" data-w="'+s[0]+'"></div>').join('');
+  document.querySelectorAll('#slBox input').forEach(i=>i.oninput=()=>{state.w[i.dataset.w]=+i.value;renderPick()});
+
+  const maxP=Math.max(...M.map(m=>mid(m.price))), minP=Math.min(...M.map(m=>mid(m.price)));
+  const maxI=Math.max(...M.map(m=>m.d.impact>50?50:m.d.impact));
+  const scen=SCEN.find(s=>s.k===state.scen);
+  const res=M.map(m=>{
+    const c=chemScore(m,scen);
+    const t=m.d.trans>=85?100:m.d.trans>=40?55:0;
+    const g=Math.min(m.d.impact,50)/maxI*100;
+    const ht=Math.min(m.d.hdt/100,1)*100;
+    const wv=m.d.weather/5*100;
+    const cs=(maxP-mid(m.price))/(maxP-minP)*100;
+    const W=state.w, cw=scen.w.chem;
+    const raw=(c*3*cw+t*W.trans+g*W.tough+ht*W.heat+wv*W.weather+cs*W.cost);
+    const div=(3*cw+W.trans+W.tough+W.heat+W.weather+W.cost);
+    const pm=state.proc==='any'?1:(m.proc.some(p=>p.includes(state.proc))?1:0.35);
+    return {m,sc:Math.round(raw/div*pm),pm,parts:{c:Math.round(c),t,g:Math.round(g),ht:Math.round(ht),wv,cs:Math.round(cs)}};
+  }).sort((a,b)=>b.sc-a.sc);
+
+  $('#rankOut').innerHTML=res.map((r,i)=>{
+    const p=r.parts;
+    const pmTag=state.proc==='any'?'':(r.pm===1?'<span class="tag" style="color:var(--ok);border-color:var(--ok)">工艺匹配</span>':'<span class="tag" style="color:var(--warn);border-color:var(--warn)">工艺不匹配 ×0.35</span>');
+    return '<div class="rk'+(i===0?' top':'')+'"><div class="rn">'+(i+1)+'</div><div class="rb">'
+      +'<h4 style="color:'+FAM[r.m.fam].c+'">'+esc(r.m.k)+'　<span style="font-size:12px;color:var(--tx2);font-weight:400">'+esc(r.m.full)+'</span>　'+pmTag+'</h4>'
+      +'<p>化学相容 '+p.c+' · 透明 '+p.t+' · 韧性 '+p.g+' · 耐热 '+p.ht+' · 耐候 '+p.wv+' · 成本 '+p.cs+'　|　'
+      +esc(r.m.use[0])+'</p>'
+      +'<div class="mini"><i style="width:'+r.sc+'%"></i></div></div>'
+      +'<div class="rsc"><b>'+r.sc+'</b><span>综合分</span></div></div>';
+  }).join('');
+}
+
+function renderCost(){
+  const w=+$('#w').value||0, vol=+$('#vol').value||0, nt=+$('#needT').value;
+  const list=M.filter(m=>!nt||m.d.trans>=80);
+  const rows=list.map(m=>{
+    const unit=mid(m.price)/1e6*w;
+    return {m,unit,year:unit*vol*10000};
+  }).sort((a,b)=>a.unit-b.unit);
+  const maxU=Math.max(...rows.map(r=>r.unit));
+  $('#costOut').innerHTML='<div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px"><table style="min-width:640px">'
+   +'<thead><tr><th>材料</th><th class="n">单件材料成本 ¥</th><th class="n">年材料成本（万元）</th><th style="width:32%">相对水平</th></tr></thead><tbody>'
+   +rows.map(r=>'<tr><td style="color:'+FAM[r.m.fam].c+';font-weight:500">'+esc(r.m.k)+'</td>'
+     +'<td class="n">'+r.unit.toFixed(4)+'</td><td class="n">'+(r.year/10000).toFixed(1)+'</td>'
+     +'<td><div class="pbar" style="margin:0;--fc:'+FAM[r.m.fam].c+'"><i style="width:'+Math.round(r.unit/maxU*100)+'%"></i></div></td></tr>').join('')
+   +'</tbody></table></div>'
+   +'<p class="hint" style="margin-top:14px">单件成本 = 参考价中值 ÷ 1,000,000 × 单件净重。未含加工、损耗、模具摊销与二次加工费用，实际差异通常小于此表价差（因加工效率与良率不同）。</p>';
+}
+
+function renderAudit(){
+  const stBadge=k=>{const s=ST[k];return '<span class="st st-'+k[0]+'" title="'+esc(s.d)+'">'+s.i+' '+s.n+'</span>'};
+  const srcTags=ids=>ids.map(i=>'<span class="sno">'+i+'</span>').join('');
+
+  /* —— 统计条 —— */
+  const cnt={verified:0,partial:0,inferred:0};
+  M.forEach(m=>{const a=AUD[m.id];['phys','chem','price'].forEach(k=>cnt[a[k]]++)});
+  const cells=M.length*MEDIA.length;
+  const box=(n,l,i)=>'<div class="abox"><span>'+l+'</span><b>'+n+'</b><i>'+i+'</i></div>';
+  $('#audStat').innerHTML=
+     box(M.length+' × '+MEDIA.length,'数据矩阵规模','材料 × 介质，共 '+cells+' 个评级格')
+    +box(SRC.length,'来源条目','全部可定位到具体文件或行情条目')
+    +box(cnt.verified,'已核对的数据域','共 '+(M.length*3)+' 个数据域（材料×物性/耐化/价格）')
+    +box(cnt.partial,'部分核对的数据域','通用级典型值或区间推断')
+    +box(cnt.inferred,'推定的数据域','无直接来源，须实测复核');
+
+  /* —— 材料级溯源表 —— */
+  let h='<table><thead><tr><th style="width:120px">材料</th><th style="width:110px">物性</th><th style="width:110px">耐化学</th><th style="width:110px">价格</th><th>核对说明</th></tr></thead><tbody>';
+  M.forEach(m=>{
+    const a=AUD[m.id];
+    h+='<tr><td style="color:'+FAM[m.fam].c+';font-weight:500">'+esc(m.k)+'</td>'
+      +'<td>'+stBadge(a.phys)+'</td><td>'+stBadge(a.chem)+'</td><td>'+stBadge(a.price)+'</td>'
+      +'<td class="sm">'+esc(a.note)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  $('#audTbl').innerHTML=h;
+
+  /* —— 来源清单 —— */
+  h='<table><thead><tr><th style="width:52px">编号</th><th style="width:170px">机构 / 出版方</th><th>文件 / 条目</th><th style="width:120px">类型</th><th style="width:92px">时点</th><th style="width:270px">支撑的具体数值</th></tr></thead><tbody>';
+  SRC.forEach(s=>{
+    h+='<tr><td><span class="sno">'+s.id+'</span></td><td class="sm">'+esc(s.org)+'</td>'
+      +'<td><a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:var(--ac)">'+esc(s.title)+'</a></td>'
+      +'<td class="sm">'+esc(s.kind)+'</td><td class="sm">'+esc(s.date)+'</td>'
+      +'<td class="sm">'+esc(s.use)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  $('#srcTbl').innerHTML=h;
+
+  /* —— 冲突登记 —— */
+  h='<table><thead><tr><th style="width:48px">编号</th><th style="width:150px">冲突项</th><th>来源 A 说法</th><th>来源 B 说法</th><th style="width:190px">采纳</th><th style="width:280px">理由</th></tr></thead><tbody>';
+  CFN.forEach(c=>{
+    h+='<tr><td><span class="sno">'+c.id+'</span></td><td style="font-weight:500">'+esc(c.item)+'</td>'
+      +'<td class="sm">'+esc(c.a)+'</td><td class="sm">'+esc(c.b)+'</td>'
+      +'<td class="sm" style="color:var(--warn)">'+esc(c.take)+'</td>'
+      +'<td class="sm">'+esc(c.why)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  $('#cfTbl').innerHTML=h;
+
+  /* —— 变更记录 —— */
+  h='<table><thead><tr><th style="width:46px">轮次</th><th style="width:104px">日期</th><th style="width:110px">对象</th><th style="width:130px">字段</th><th style="width:120px">原值</th><th style="width:130px">新值</th><th style="width:120px">依据</th><th>原因</th></tr></thead><tbody>';
+  CHG.forEach(c=>{
+    h+='<tr><td><span class="sno">'+c.r+'</span></td><td class="sm">'+esc(c.date)+'</td>'
+      +'<td class="sm" style="font-weight:500">'+esc(c.obj)+'</td><td class="sm">'+esc(c.field)+'</td>'
+      +'<td class="sm" style="color:var(--bad)">'+esc(c.from)+'</td>'
+      +'<td class="sm" style="color:var(--ok)">'+esc(c.to)+'</td>'
+      +'<td class="sm">'+esc(c.src)+'</td><td class="sm">'+esc(c.why)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  $('#chgTbl').innerHTML=h;
+
+  /* —— 方法与边界 —— */
+  $('#stdBox').innerHTML=
+     '<b>评级口径</b>：0 溶解 / 1 差 / 2 中 / 3 良 / 4 优，五档序数，基准前提为「室温、无残余应力、静态浸泡」。数值即评级本身，不是某个实测连续量的换算结果。<br>'
+    +'<b>已知的方法学张力</b>：基础档来自无应力图表，但对已知 ESC 敏感的体系（如 PS×醇、PMMA×醇）做了保守下调，使其更贴近成型件真实表现。这类下调逐条记在冲突登记 C2 与变更记录中，不与"实测值"混淆。<br>'
+    +'<b>复核用测试方法</b>：ISO 22088-3（ESC 弯曲条法）、ASTM D1693 / GB/T 1842（聚乙烯 ESCR）、ISO 75 / ASTM D648（HDT）、ISO 527 / ASTM D638（拉伸）、GB/T 2410（透光率与雾度）、ISO 15105 / GB/T 1038（气体透过率）、ISO 22088 系列（带应力介质浸泡）。<br>'
+    +'<b>不可用于</b>：直接放行、供应商索赔依据、法规符合性声明。价格仅作横向比价，不作采购报价——行情日波动，报价请以当日供应商询价为准。<br>'
+    +'<b>更新责任</b>：价格建议每季度复核一次（原油与供需驱动）；评级在新增介质或出现现场失效案例时复核。';
+}
+
+function renderTest(){
+  $('#testOut').innerHTML=M.map(m=>{
+    const bad=m.risk.filter(r=>r[0]==='b').map(r=>r[1]);
+    return '<div class="card" style="--fc:'+FAM[m.fam].c+';cursor:default;margin-bottom:12px" onclick="openSheet(\''+m.id+'\')">'
+     +'<div class="ct"><b>'+esc(m.k)+'</b><i>'+esc(m.full)+'</i></div>'
+     +(bad.length?'<div style="margin:8px 0;font-size:12px;color:var(--bad)">头号失效：'+esc(bad[0])+'</div>':'<div style="margin:8px 0;font-size:12px;color:var(--tx2)">无高危失效模式</div>')
+     +'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px">'+m.test.map(t=>'<span class="tag">'+esc(t)+'</span>').join('')+'</div>'
+     +'</div>';
+  }).join('');
+}
+
+/* ====== 雷达画像 ====== */
+const PRICE_RANGE=(()=>{const ps=M.map(m=>mid(m.price));return {lo:Math.min(...ps),hi:Math.max(...ps)}})();
+const clamp100=v=>Math.max(0,Math.min(100,v));
+const RAXES=[
+  {k:'chem',n:'耐化学',score:(m,s)=>chemScore(m,s),raw:(m,s)=>chemScore(m,s),fmt:v=>Math.round(v)+' 分'},
+  {k:'impact',n:'抗冲击',score:m=>Math.log(Math.max(m.d.impact,1.5)/1.5)/Math.log(60/1.5)*100,raw:m=>m.d.impact,fmt:v=>v>=50?'＞50 kJ/m²（不断裂）':v.toFixed(1)+' kJ/m²'},
+  {k:'heat',n:'耐热',score:m=>(m.d.hdt-40)/55*100,raw:m=>m.d.hdt,fmt:v=>v.toFixed(0)+' °C（HDT）'},
+  {k:'barrier',n:'阻隔',score:m=>(m.d.o2+m.d.wv)/2/5*100,raw:m=>(m.d.o2+m.d.wv)/2,fmt:v=>v.toFixed(1)+' / 5 星'},
+  {k:'cost',n:'成本优势',score:m=>(PRICE_RANGE.hi-mid(m.price))/(PRICE_RANGE.hi-PRICE_RANGE.lo)*100,raw:m=>mid(m.price),fmt:v=>'参考价中值 ¥'+Math.round(v).toLocaleString()+' / 吨'},
+  {k:'stiff',n:'刚性',score:m=>Math.log(Math.max(m.d.tensile,10)/10)/Math.log(70/10)*100,raw:m=>m.d.tensile,fmt:v=>v.toFixed(0)+' MPa（拉伸）'}
+];
+
+function radarSVG(m,ranks,scen){
+  const W=300,H=250,cx=150,cy=116,R=68,N=RAXES.length,lr=98;
+  const dirs=[];
+  for(let i=0;i<N;i++){const a=-Math.PI/2+i*2*Math.PI/N;dirs.push([Math.cos(a),Math.sin(a)]);}
+  const pt=(r,i)=>[cx+dirs[i][0]*r,cy+dirs[i][1]*r];
+  const poly=r=>dirs.map((_,i)=>pt(r,i).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const rings=[0.25,0.5,0.75,1].map(f=>'<polygon points="'+poly(R*f)+'" fill="none" stroke="var(--line)" stroke-width="1"/>').join('');
+  const spokes=dirs.map((_,i)=>{const p=pt(R,i);
+    return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="var(--line)" stroke-width="1"/>';}).join('');
+  const vals=RAXES.map(ax=>clamp100(ax.score(m,scen)));
+  const shape=vals.map((s,i)=>pt(R*s/100,i).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const dots=vals.map((s,i)=>{
+    const p=pt(R*s/100,i),ax=RAXES[i],raw=ax.raw(m,scen);
+    return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.4" fill="var(--ac)"><title>'+esc(ax.n+'：'+ax.fmt(raw))+'</title></circle>';
+  }).join('');
+  const labels=RAXES.map((ax,i)=>{
+    const lp=pt(lr,i),bp=pt(R+11,i),dx=dirs[i][0];
+    const anchor=dx>0.25?'start':(dx<-0.25?'end':'middle');
+    const rk=ranks[ax.k][m.id];
+    return '<text x="'+lp[0].toFixed(1)+'" y="'+(lp[1]+4).toFixed(1)+'" text-anchor="'+anchor+'" font-size="11" fill="var(--tx2)">'+ax.n+'</text>'
+      +'<circle cx="'+bp[0].toFixed(1)+'" cy="'+bp[1].toFixed(1)+'" r="6.5" fill="var(--panel2)" stroke="var(--ac)" stroke-width="1"/>'
+      +'<text x="'+bp[0].toFixed(1)+'" y="'+(bp[1]+3).toFixed(1)+'" text-anchor="middle" font-size="8" font-weight="600" fill="var(--ac)">'+rk+'</text>';
+  }).join('');
+  return '<polygon points="'+shape+'" fill="rgba(88,166,255,.15)" stroke="var(--ac)" stroke-width="2" stroke-linejoin="round"/>'
+    +rings+spokes+dots+labels;
+}
+
+function radarPick(){
+  const scen=SCEN.find(s=>s.k===state.scen)||SCEN[0];
+  let list=$('#rSrc').value==='pick'?state.pick.map(id=>M.find(m=>m.id===id)).filter(Boolean):M.slice();
+  if(!list.length) list=M.slice();
+  const sort=$('#rSort').value;
+  const key={
+    score:m=>RAXES.reduce((a,ax)=>a+clamp100(ax.score(m,scen)),0)/RAXES.length,
+    chem:m=>chemScore(m,scen),
+    impact:m=>m.d.impact,
+    heat:m=>m.d.hdt,
+    cost:m=>-mid(m.price)
+  }[sort];
+  return {list:list.slice().sort((a,b)=>key(b)-key(a)),scen};
+}
+
+function renderRadar(){
+  const {list,scen}=radarPick();
+  const lim=+$('#rLimit').value;
+  const shown=lim>0?list.slice(0,lim):list;
+  const ranks={};
+  RAXES.forEach(ax=>{
+    const vals=shown.map(m=>clamp100(ax.score(m,scen)));
+    ranks[ax.k]={};
+    shown.forEach(m=>{
+      const v=clamp100(ax.score(m,scen));
+      ranks[ax.k][m.id]=1+vals.filter(x=>x>v+1e-9).length;
+    });
+  });
+  $('#rCount').textContent='显示 '+shown.length+' / '+list.length+' 种　·　体系：'+scen.n;
+  $('#rEmpty').style.display=shown.length?'none':'block';
+  if(!shown.length){
+    $('#rEmpty').textContent='参数对比篮为空——先在「参数对比」里选材料，或把数据源切回「全部」。';
+    $('#rGrid').innerHTML='';window.__radarIds=[];return;
+  }
+  $('#rGrid').innerHTML=shown.map(m=>{
+    const score=Math.round(RAXES.reduce((a,ax)=>a+clamp100(ax.score(m,scen)),0)/RAXES.length);
+    const tag=m.d.trans>=85?'透明':(m.d.trans>=40?'半透':'不透明');
+    return '<div class="rcard" style="--fc:'+FAM[m.fam].c+'">'
+      +'<div class="rct"><b>'+esc(m.k)+'</b><i>'+esc(m.en)+'</i><span class="rt">'+tag+'</span></div>'
+      +'<div class="rfull">'+esc(m.full)+'</div>'
+      +'<svg viewBox="0 0 300 250" role="img" aria-label="'+esc(m.k)+' 六维雷达画像">'+radarSVG(m,ranks,scen)+'</svg>'
+      +'<div class="rcb"><span>六维均分 <b>'+score+'</b></span><span class="rp">¥'+m.price[0].toLocaleString()+'–'+m.price[1].toLocaleString()+' / 吨</span></div>'
+      +'</div>';
+  }).join('');
+  window.__radarIds=shown.map(m=>m.id);
+}
+
+$('#rScen').innerHTML=SCEN.map(s=>'<option value="'+s.k+'">'+esc(s.n)+'</option>').join('');
+$('#rScen').value=state.scen;
+$('#rScen').onchange=e=>{state.scen=e.target.value;renderRadar();renderPick()};
+['rSrc','rSort','rLimit'].forEach(id=>$('#'+id).onchange=renderRadar);
+$('#rToCmp').onclick=()=>{
+  const ids=(window.__radarIds||[]).slice(0,6);
+  if(!ids.length) return;
+  state.pick=ids;renderCmp();
+  document.querySelector('nav button[data-p=cmp]').click();
+};
+
+/* ===== 导航（v1.3 加固：事件委托 + 存在性校验 + 渲染容错） ===== */
+function showPane(p, opts){
+  opts = opts || {};
+  const pane = document.getElementById(p);
+  const btn  = document.querySelector('nav button[data-p="'+p+'"]');
+  if(!pane || !btn) return false;
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on', x===btn));
+  document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('on', x===pane));
+  state.pane = p;
+  try{
+    if(p==='radar') renderRadar();
+    if(p==='audit') renderAudit();
+  }catch(err){
+    if(!pane.querySelector('.pane-err')){
+      pane.insertAdjacentHTML('afterbegin','<div class="pane-err">本页渲染出错：'+String((err&&err.message)||err)+'　请按 Ctrl+F5 强制刷新；若仍报错，把这条信息发我。</div>');
+    }
+    console.error('[pane:'+p+']', err);
+  }
+  if(!opts.keepScroll) window.scrollTo(0,0);
+  try{ if(history.replaceState) history.replaceState(null,'','#'+p); }catch(e){}
+  return true;
+}
+window.showPane = showPane;
+document.addEventListener('click', e=>{
+  const btn = e.target && e.target.closest ? e.target.closest('nav button[data-p]') : null;
+  if(!btn) return;
+  e.preventDefault();
+  showPane(btn.dataset.p);
+}, true);
+window.__navBound = true;
+if(location.hash && document.getElementById(location.hash.slice(1))){
+  showPane(location.hash.slice(1), {keepScroll:true});
+}
+window.addEventListener('hashchange', ()=>{
+  const p = location.hash.slice(1);
+  if(p) showPane(p);
+});
+$('#q').oninput=e=>{if(state.pane!=='lib')document.querySelector('nav button[data-p=lib]').click();renderCards(e.target.value)};
+$('#theme').onclick=()=>{
+  const d=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=d?'light':'dark';
+  $('#theme').textContent=d?'深色':'浅色';
+};
+['w','vol','needT'].forEach(id=>$('#'+id).oninput=renderCost);
+$('#proc').onchange=e=>{state.proc=e.target.value;renderPick()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+
+renderCards('');renderCmp();renderMtx();renderPick();renderCost();renderTest();renderRadar();renderAudit();
+$('#srcList').innerHTML=SRC.slice(0,8).map(s=>'<li style="margin-bottom:5px;break-inside:avoid"><span class="sno">'+s.id+'</span> <a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:var(--ac)">'+esc(s.org)+' · '+esc(s.title)+'</a></li>').join('')
+  +'<li style="margin-bottom:5px;list-style:none;padding-left:0"><a href="javascript:void(0)" onclick="document.querySelector(\'nav button[data-p=audit]\').click();window.scrollTo(0,0)" style="color:var(--ac);font-weight:500">→ 查看完整来源清单（'+SRC.length+' 条）、冲突登记与变更记录</a></li>';
+</script>
+<script>
+/* 导航兜底：主脚本若中途报错、__navBound 未置位，这里仍保证标签可切换 */
+(function(){
+  if(window.__navBound) return;
+  document.addEventListener('click', function(e){
+    var b = e.target && e.target.closest ? e.target.closest('nav button[data-p]') : null;
+    if(!b) return;
+    e.preventDefault();
+    var pane = document.getElementById(b.dataset.p);
+    if(!pane) return;
+    Array.prototype.forEach.call(document.querySelectorAll('nav button'), function(x){ x.classList.toggle('on', x===b); });
+    Array.prototype.forEach.call(document.querySelectorAll('.pane'), function(x){ x.classList.toggle('on', x===pane); });
+    try{
+      if(b.dataset.p==='radar' && typeof window.renderRadar==='function') window.renderRadar();
+      if(b.dataset.p==='audit' && typeof window.renderAudit==='function') window.renderAudit();
+    }catch(err){ console.error(err); }
+    window.scrollTo(0,0);
+  }, true);
+})();
+</script>
+</body>
+</html>
