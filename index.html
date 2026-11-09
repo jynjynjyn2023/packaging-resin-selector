@@ -140,7 +140,7 @@ footer{border-top:1px solid var(--line);margin-top:44px;padding-top:16px;color:v
 <header data-page-node-id="IfT5WrBFisYDizo1S4lHaU">
 <div class="wrap" data-page-node-id="6HAkU4OSGHF57GzAH5Qj8V">
   <div class="hd" data-page-node-id="8mbXd63AgI8LbWRc6RVrEG">
-    <div class="logo" data-page-node-id="WsFzGlBle8zbj1RfkCQuUh">包材树脂智能选材平台<span data-page-node-id="hs1cItYp2pxVfwQ0cmsOxR">Packaging Resin Selector v1.3</span></div>
+    <div class="logo" data-page-node-id="WsFzGlBle8zbj1RfkCQuUh">包材树脂智能选材平台<span data-page-node-id="hs1cItYp2pxVfwQ0cmsOxR">Packaging Resin Selector v1.4</span></div>
     <div class="spacer" data-page-node-id="cHO3ydWGWvqD382236EpGS"></div>
     <input type="text" id="q" placeholder="搜索材料 / 应用 / 牌号…" style="width:210px" data-page-node-id="HMZUBzm7C23o5Q9CCSB11n">
     <button class="btn" id="theme" data-page-node-id="bqP2dzMGzk03sBC8fJ9GCR">浅色</button>
@@ -238,7 +238,7 @@ footer{border-top:1px solid var(--line);margin-top:44px;padding-top:16px;color:v
   <section class="pane" id="audit">
     <p class="hint">本页是平台的审计底稿，不是宣传页。每一类数据都对应到具体来源编号、核对状态与变更记录——目的是让任何第三方拿着这份文件，能自己判断某个数字该不该信、能信到什么程度。评级口径的完整定义另见配套 WORD《包材树脂耐化学评级口径说明》。</p>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-      <div style="font-size:12px;color:var(--tx3)">数据版本 v1.1　|　核对完成日 2026-11-03　|　核对人：自然堂包开测评组</div>
+      <div style="font-size:12px;color:var(--tx3)">数据版本 v1.2　|　核对完成日 2026-11-09　|　核对人：自然堂包开测评组</div>
       <button class="btn no-print" onclick="window.print()">打印 / 导出 PDF</button>
     </div>
     <div class="audbar" id="audStat"></div>
@@ -256,7 +256,7 @@ footer{border-top:1px solid var(--line);margin-top:44px;padding-top:16px;color:v
     <div class="tbl-wrap" id="cfTbl"></div>
 
     <h3>四、本版变更记录</h3>
-    <p class="hint" style="margin-bottom:10px">每次改数都要留痕：改了什么、原来是什么、依据哪条来源。R1 为评级核对轮，R2 为价格复核轮。</p>
+    <p class="hint" style="margin-bottom:10px">每次改数都要留痕：改了什么、原来是什么、依据哪条来源。R1 为评级核对轮，R2 为价格复核轮，R3 为溯源扩源轮（接入 MCP 数据库与原厂耐化学文件）。</p>
     <div class="tbl-wrap" id="chgTbl"></div>
 
     <h3>五、测试方法与适用边界</h3>
@@ -264,11 +264,11 @@ footer{border-top:1px solid var(--line);margin-top:44px;padding-top:16px;color:v
   </section>
 
   <footer data-page-node-id="yMFgcXMMzdmAqYiW8YIWBn">
-    价格口径：2026 年 11 月华东现货行情（含税，元/吨），来源为卓创资讯与公开报价平台；行情日波动，仅用于横向比价，不作采购报价依据。<br data-page-node-id="f1oTv8UWkLBueBx4NWGESJ">
+    价格口径：2026 年 11 月华东现货行情（含税，元/吨），来源为卓创资讯、公开报价平台与 NeoData 大宗商品数据库（MCP 直连，聚源数据）；行情日波动，仅用于横向比价，不作采购报价依据。<br data-page-node-id="f1oTv8UWkLBueBx4NWGESJ">
     物性为通用级典型值，改性牌号（增韧、耐热、透明成核、抗 UV 等）会有明显偏移，选型时以供应商 COA 与实测为准。<br data-page-node-id="rDxIWybK9cG0bGl9dumdNj">
     耐化学评级（0 溶解 → 4 优）为室温无应力浸泡的定性判定，依据公开手册、厂牌评级与同行评议文献；对已知 ESC 敏感体系做了保守下调，逐条登记在「数据溯源」页。真实失效多为环境应力开裂，新品导入必须完成实际配方带应力相容性验证。<br data-page-node-id="rDxIWybK9cG0bGl9dumdNj">
     <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)">
-      <b style="color:var(--tx2)">数据来源与引用（v1.1 · 2026-11-03 核对）</b>
+      <b style="color:var(--tx2)">数据来源与引用（v1.2 · 2026-11-09 核对）</b>
       <ul style="margin:8px 0 0;padding-left:18px;columns:2;column-gap:28px" id="srcList"></ul>
     </div>
   </footer>
@@ -401,23 +401,50 @@ const SRC=[
   url:'https://b2b.baidu.com/land/eb74c46ce6d7f2ce92607a92a0d21d3a?fid=403116032'},
  {id:'S15',org:'搜了网',title:'PCTA 注塑级透明颗粒行情',kind:'价格行情（贸易商自提）',date:'2025-04',
   use:'华东 PCTA 注塑级 28–35 元/kg；SK JN200 均价 32，伊士曼 MXF221 均价 34',
-  url:'https://m.51sole.com/shop/kayooo/companyproductdetail_247766239.htm'}
+  url:'https://m.51sole.com/shop/kayooo/companyproductdetail_247766239.htm'},
+ {id:'S16',org:'INEOS Styrolution（Luran SAN 368R / 348Q 材料页）',title:'Luran SAN 化学耐受边界与 ESC 筛查（ISO 175 / ISO 22088-2）',kind:'耐化学（牌号边界）',date:'—',
+  use:'SAN 耐稀酸碱 / 洗涤剂 / 化妆品油 / 脂肪烃；不耐芳烃 / 氯代 / 浓酯 / 酮；乙醇 >50% 乳液在高残余应力区（螺纹、卡扣）诱发 ESC；应力 >10 MPa 加速银纹',
+  url:'https://www.ascent-petrochem.com/products/resins-plastics/ineos-styrolution-luran-san-368r-cas-9003-54-7.html'},
+ {id:'S17',org:'INEOS Styrolution（Terluran GP-35 官方耐介质清单）',title:'Terluran GP-35 Chemical Media Resistance（ALBIS 发布）',kind:'耐化学（逐介质清单）',date:'—',
+  use:'ABS 耐受（23 °C）：稀酸 / 碱、甲醇、乙醇、异辛烷、柴油、盐溶液、1% 烷基酚聚氧乙烯醚（表活）、水；酮 / 酯 / 芳烃 / 氯代不耐受',
+  url:'https://hongrunplastics.com/public/uploads/images/20250809/ALBIS%20ABS%20Terluran%20GP-35.pdf'},
+ {id:'S18',org:'Ted Pella',title:'Chemical Resistance Chart（PP / HDPE / LDPE 20 °C 与 50 °C 双温档）',kind:'耐化学（双温档）',date:'—',
+  use:'PP×丙酮 20 °C=E、50 °C=B；HDPE/LDPE×乙醇 20 °C=E、50 °C=B；PP/PE×芳烃、氯代 N；矿物油 HDPE 20 °C=E、LDPE 20 °C=E / 50 °C=B',
+  url:'https://www.tedpella.com/company_html/chem-resistance.aspx'},
+ {id:'S19',org:'INEOS Styrolution（Luran S MED 797S 官方文献）',title:'Luran S MED 797S SPF30 Product Flyer（ASA vs ABS ESCR 雷达）',kind:'耐化学（ESCR 对比）',date:'—',
+  use:'70% IPA / 70% EtOH / 含醇消毒剂体系：ASA +0.6 vs ABS −1.5（相对标度）——ABS 在醇体系的 ESCR 显著弱于 ASA',
+  url:'https://www.ineos.com/globalassets/ineos-group/businesses/ineos-styrolution/news/downloads/luran-s-med-797s_product-flyer.pdf'},
+ {id:'S20',org:'Nerbe Plus（德国实验室耗材商产品手册）',title:'Resistance List: PS / LDPE / HDPE / PP（带浓度与温度档）',kind:'耐化学（逐介质）',date:'—',
+  use:'PS×芳烃 / 酮 / 氯代 不耐、×96% 乙醇条件性；PP×丙酮饱和液室温可、50 °C 热变形不可用；PE×精油条件性耐受、×芳烃 / 氯代不耐',
+  url:'http://cdmed.com.tr/userfiles/file/Nerbe%20Plus%20Almanya.pdf'},
+ {id:'S21',org:'INEOS Styrolution NAS®（华南授权商条目，多渠道一致）',title:'NAS21 / NAS30 / NAS90 SMMA 产品条目（含 75% 乙醇浸泡数据）',kind:'耐化学（牌号实测声明）',date:'—',
+  use:'NAS 系列：75% 乙醇浸泡 72 h 无溶胀；耐医用消毒酒精、卸妆油、果酸清洁剂；NAS30 医疗消毒级（USP VI）；NAS90 耐温 98 °C',
+  url:'https://176935660.b2b.11467.com/news/13060831.asp'},
+ {id:'S22',org:'Eastman Chemical（官方文献 spmbs1538）',title:'Eastman Tritan™ Copolyester — 化妆品与个人护理用途（含物性表）',kind:'耐化学定位 + 物性（ASTM）',date:'—',
+  use:'Tritan 化妆品兼容性定位；比重 1.18、拉伸屈服 43 MPa / 断裂 52 MPa、弯曲模量 1,575 MPa、缺口 Izod 860 J/m、HDT 81 °C（1.82 MPa）、透光 91% / 雾度 <1%',
+  url:'https://www.eastman.com/content/dam/eastman/corporate/en/literature/s/spmbs1538.pdf'},
+ {id:'S23',org:'卓创资讯（经腾讯财经转载）',title:'11月6日乙烯链价格下跌，聚酯期货上涨，原油企稳但芳烃去溢价',kind:'价格行情（日报）',date:'2026-11-09',
+  use:'LLDPE / LDPE / HDPE 日跌 100–200 元/吨；苯乙烯较上周下跌 11.84%；WTI 90.83 美元、布伦特 98.32 美元成本端企稳',
+  url:'https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN2026110916261698b115af'},
+ {id:'S24',org:'NeoData 大宗商品数据库（聚源数据，MCP 接口直连）',title:'大宗商品现货历史行情（化工类，多区域条目）',kind:'价格行情（数据库 API）',date:'2026-11-06',
+  use:'苯乙烯 华东 9,840–10,110 元/吨；ABS 余姚 12,300 / 东莞 13,500 / 汕头 11,000；PP 西南 11,000–11,600；HIPS 顺德 11,750——与 S01–S04 口径一致条目采纳，异常条目见 C7',
+  url:'https://copilot.tencent.com/agenttool/v1/neodata'}
 ];
 
 /* 材料级溯源：三类数据分别定级 */
 const AUD={
- gpps:{phys:'partial',chem:'verified',price:'verified',note:'耐化有 K-Mac 逐项表直接支撑（S05）；物性为通用级典型值，未见厂 TDS 原件'},
- as:  {phys:'partial',chem:'partial', price:'partial', note:'无 AN 含量对应的厂 TDS 专项耐化表；价格按透苯加 2,000–4,000 元加工溢价推算'},
- ms:  {phys:'partial',chem:'partial', price:'inferred',note:'INEOS NAS 属进口专用牌号，国内公开报价少，价格为区间推算'},
+ gpps:{phys:'partial',chem:'verified',price:'verified',note:'耐化有 K-Mac 逐项表直接支撑（S05），Nerbe 手册交叉一致（S20）；物性为通用级典型值，未见厂 TDS 原件'},
+ as:  {phys:'partial',chem:'verified', price:'partial', note:'R3：INEOS Luran SAN 材料页逐项边界与平台一致——稀酸碱/油/脂肪烃耐受，芳烃/氯代/浓酯/酮不耐，>50% 乙醇高应力区 ESC（S16）；价格仍为透苯加溢价推算'},
+ ms:  {phys:'partial',chem:'verified', price:'inferred',note:'R3：INEOS NAS 系列授权商多渠道一致载明 75% 乙醇 72 h 无溶胀、耐卸妆油/果酸（S21）；原厂 TDS 原件待取；价格为区间推算'},
  pmma:{phys:'partial',chem:'verified',price:'partial', note:'耐化有同行评议文献 + Evonik 牌号评级双支撑（S08/S09）；价格散货与小批量零售差异大'},
- ldpe:{phys:'partial',chem:'partial', price:'partial', note:'PE 仅取到线性 7042 现货（S04），LDPE 薄膜料按高压料溢价推算'},
- hdpe:{phys:'partial',chem:'partial', price:'partial', note:'HDPE 各牌号价差大（拉丝/注塑/中空），区间为跨牌号覆盖'},
- pp:  {phys:'partial',chem:'partial', price:'verified',note:'价格有华东拉丝现货直接报价（S02/S04）；透明成核牌号另计'},
- abs: {phys:'partial',chem:'partial', price:'verified',note:'价格有 HI-121H 与 0215A 两个主流牌号现货（S01/S04）'},
+ ldpe:{phys:'partial',chem:'verified', price:'partial', note:'R3：Ted Pella 双温档 + Nerbe 手册逐项支撑（S18/S20）；油/酯按缓渗保守取 2——矿物油室温可，植物油/精油条件性；价格按高压料溢价推算'},
+ hdpe:{phys:'partial',chem:'verified', price:'partial', note:'R3：Ted Pella 双温档 + Nerbe 手册逐项支撑（S18/S20）；表活 3 为 ESC 保守下调维持；各牌号价差大，区间为跨牌号覆盖'},
+ pp:  {phys:'partial',chem:'verified', price:'verified',note:'R3：Ted Pella 双温档逐项支撑——PP×丙酮 20 °C=E、50 °C=B（S18），Nerbe 交叉一致（S20）；价格有华东拉丝现货（S02/S04）'},
+ abs: {phys:'partial',chem:'verified', price:'verified',note:'R3：Terluran GP-35 官方耐介质清单逐项支撑（S17）；醇类按 ESC 保守取 2，与 Luran S MED ESCR 雷达一致（S19），登记 C6；价格有 HI-121H 与 0215A 现货（S01/S04），下缘承压见 S24'},
  pet: {phys:'partial',chem:'verified',price:'verified',note:'耐化有包装实践与机理双来源（S10/S11）；价格有水瓶级现货（S01/S04）'},
- petg:{phys:'partial',chem:'partial', price:'partial', note:'Eastar 系列进口为主，国内报价散，按牌号区间覆盖'},
- pcta:{phys:'partial',chem:'partial', price:'inferred',note:'PCTA 牌号间价差极大（AN001 15 元/kg vs MXF221 34 元/kg），区间为跨度而非单一牌号'},
- pctg:{phys:'partial',chem:'partial', price:'partial', note:'Tritan 各牌号 26–52 元/kg，区间反映牌号与批量差异'}
+ petg:{phys:'partial',chem:'partial', price:'partial', note:'Eastar 系列进口为主，国内报价散，按牌号区间覆盖；耐化仍缺原厂逐介质清单，为下一步核对目标'},
+ pcta:{phys:'partial',chem:'partial', price:'inferred',note:'PCTA 牌号间价差极大（AN001 15 元/kg vs MXF221 34 元/kg），区间为跨度而非单一牌号；耐化仍缺 Eastman 逐介质文件'},
+ pctg:{phys:'verified',chem:'partial', price:'partial', note:'R3：Eastman 官方化妆品文献物性落在平台区间——比重 1.18 / 拉伸 43–52 MPa / HDT 81 °C / 透光 91%（S22）；耐化仅有化妆品兼容性定位，仍缺逐介质清单'}
 };
 
 /* 来源冲突登记 */
@@ -431,7 +458,11 @@ const CFN=[
  {id:'C4',item:'PET × 稀碱',a:'稀碱短期可用（实验室器皿常规接触）',b:'S11：稀碱长期接触亦使表面开裂发黏；浓碱快速降解',
   take:'采纳 2（中），条件限定为「稀碱、短期」',why:'取中间档并把条件写进风险项；浓碱仍按一票否决处理（见 PET 风险项第 1 条）。'},
  {id:'C5',item:'全部树脂 × 价格',a:'平台原值（PET 5,500–7,000、PP 6,500–9,500 等）',b:'S01–S04、S13–S15：2026-11 现货普遍高出 40–70%',
-  take:'采纳新行情值，原值作废',why:'原值量级对应 2024 年行情，未随 2025–2026 原油与供需变化更新，属实质性误差，已全量重标并留痕（见变更记录 R2）。'}
+  take:'采纳新行情值，原值作废',why:'原值量级对应 2024 年行情，未随 2025–2026 原油与供需变化更新，属实质性误差，已全量重标并留痕（见变更记录 R2）。'},
+ {id:'C6',item:'ABS × 75% 乙醇',a:'S17：Terluran GP-35 官方耐介质清单标乙醇 23 °C 耐受（√）',b:'S19：Luran S MED ESCR 雷达图，70% IPA / 70% EtOH 体系下 ABS 相对值 −1.5（ASA +0.6），化妆品高应力件 ESC 高发',
+  take:'维持 2（中，有条件可用）',why:'两条 INEOS 官方口径分别对应「无应力浸泡」与「带应力 ESCR」，前提不同故都成立；平台基准面向带残余应力的成型件，按 ESC 保守取档（方法学下调，非数据矛盾）。'},
+ {id:'C7',item:'聚源大宗条目 × 部分区域报价',a:'S24 同源华东/余姚/东莞/汕头条目（苯乙烯 9,840–10,110、ABS 11,000–13,500、PP 西南 11,000–11,600）与卓创 S01–S04 一致',b:'S24 部分区域条目（河北 ABS 5,450、上海 PE 7,200、江苏 PP 8,350）显著低于主流行情 40% 以上',
+  take:'仅采纳与卓创口径一致的条目，异常条目不采纳',why:'异常条目无产品规格标注，疑混入再生料或不同含税口径；单点异常不足以推翻两处独立一致来源，留案供季度复核。'}
 ];
 
 /* 变更记录：R1 评级核对轮，R2 价格复核轮 */
@@ -454,7 +485,12 @@ const CHG=[
  {r:'R1',date:'2026-11（初版核对）',obj:'PP',field:'chem 芳烃 / 抛射剂',from:'2 / 2',to:'1 / 3',src:'S06 / S07',why:'甲苯二甲苯攻击 PP；PP 对烷烃优于 PE'},
  {r:'R1',date:'2026-11（初版核对）',obj:'MS / SMMA',field:'chem 醇',from:'2',to:'4',src:'S09 同类丙烯酸-苯乙烯体系',why:'缺腈基，耐醇显著优于 AS/PMMA'},
  {r:'R1',date:'2026-11（初版核对）',obj:'PCTA / PCTG',field:'chem 醇',from:'3 / 3',to:'4 / 4',src:'S13 牌号说明（耐化学耐水解）',why:'高 CHDM 共聚酯对醇体积变化极小'},
- {r:'R1',date:'2026-11（初版核对）',obj:'PCTA',field:'chem 香精',from:'2',to:'4',src:'S13',why:'Cristal 系抗芳油银纹为香水包材主力'}
+ {r:'R1',date:'2026-11（初版核对）',obj:'PCTA',field:'chem 香精',from:'2',to:'4',src:'S13',why:'Cristal 系抗芳油银纹为香水包材主力'},
+ {r:'R3',date:'2026-11-09',obj:'AS / MS / ABS / PP / HDPE / LDPE',field:'AUD 耐化学',from:'partial（部分核对）×6',to:'verified（已核对）×6',src:'S16–S21',why:'接入原厂耐介质清单与双温档对照：INEOS Luran SAN 边界（S16）、Terluran GP-35 逐介质清单（S17）、Ted Pella 20/50 °C 双温档（S18）、Nerbe 带浓度温度对照（S20）、NAS 系列 75% 乙醇 72 h 实测声明（S21）；逐项与平台评级方向一致，评级值均未改动'},
+ {r:'R3',date:'2026-11-09',obj:'PCTG',field:'AUD 物性',from:'partial',to:'verified',src:'S22',why:'Eastman 官方化妆品文献物性（比重 1.18、拉伸 43–52 MPa、HDT 81 °C @1.82 MPa、透光 91% / 雾度 <1%）落在平台区间内，牌号间偏移已标注'},
+ {r:'R3',date:'2026-11-09',obj:'ABS',field:'AUD 耐化学（醇口径）',from:'2（维持）',to:'2（维持）+ 冲突登记 C6',src:'S17 / S19',why:'官方清单标乙醇耐受（无应力）vs ESCR 雷达 −1.5（带应力）——前提不同，按 ESC 保守维持 2，登记冲突留案'},
+ {r:'R3',date:'2026-11-09',obj:'全材料',field:'价格区间',from:'维持 R2 值',to:'维持 R2 值（方向复核）',src:'S23 / S24',why:'2026-11-09 复核：乙烯链回落（LLDPE/LDPE/HDPE 日跌 100–200、苯乙烯周跌 11.84%），现有区间仍覆盖；ABS 下缘承压（余姚 12,300），下次复核关注'},
+ {r:'R3',date:'2026-11-09',obj:'来源清单',field:'SRC',from:'15 条',to:'24 条（新增 S16–S24）',src:'—',why:'新增：原厂耐化学文件 5 条（INEOS×3、Eastman×1、Ted Pella/Nerbe×2 合并计）、价格来源 2 条（含 MCP 数据库直连 NeoData/聚源 S24）；全部定位到具体文件或行情条目'}
 ];
 
 const M=[
